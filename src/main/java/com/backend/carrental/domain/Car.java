@@ -5,9 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -20,20 +20,40 @@ public class Car implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(max = 15)
-    @NotNull(message = "Please enter the car model")
-    @Column(nullable = false, length = 15)
+    @Size(max = 30)
+    @Column(length = 30)
     private String model;
 
-    @NotNull(message = "Please enter the number of doors")
-    @Column(nullable = false)
     private Integer doors;
 
-    @NotNull(message = "Please enter the number of seats")
-    @Column(nullable = false)
     private Integer seats;
 
-    @NotNull(message = "Please enter the number of luggage")
-    @Column(nullable = false)
     private Integer luggage;
+
+    private Integer transmission;
+
+    private Boolean airConditioning;
+
+    private Integer age;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "car_image",
+            joinColumns = @JoinColumn(name = "car_id"),
+            inverseJoinColumns = @JoinColumn(name = "file_id"))
+    private Set<FileDB> image;
+
+    private Double pricePerDay;
+
+    public Car(String model, Integer doors, Integer seats, Integer luggage, Integer transmission,
+               Boolean airConditioning, Integer age, Set<FileDB> image, Double pricePerDay) {
+        this.model = model;
+        this.doors = doors;
+        this.seats = seats;
+        this.luggage = luggage;
+        this.transmission = transmission;
+        this.airConditioning = airConditioning;
+        this.age = age;
+        this.image = image;
+        this.pricePerDay = pricePerDay;
+    }
 }
