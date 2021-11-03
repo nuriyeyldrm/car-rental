@@ -17,9 +17,9 @@ public class FileDBService {
 
     private final FileDBRepository fileDBRepository;
 
-    public void store(MultipartFile file) throws IOException {
+    public void store(MultipartFile file, String model) throws IOException {
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-        FileDB fileDB = new FileDB(fileName, file.getContentType(), file.getBytes());
+        FileDB fileDB = new FileDB(model, fileName, file.getContentType(), file.getBytes());
 
         fileDBRepository.save(fileDB);
     }

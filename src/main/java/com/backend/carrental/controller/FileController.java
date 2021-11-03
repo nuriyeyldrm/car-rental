@@ -22,15 +22,16 @@ import java.util.stream.Collectors;
 @RestController
 @Produces(MediaType.APPLICATION_JSON)
 @CrossOrigin("http://localhost:8081")
-@RequestMapping(path = "/api")
+@RequestMapping(path = "/api/files")
 public class FileController {
 
     private final FileDBService fileDBService;
 
     @PostMapping("/upload")
-    public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("file") MultipartFile file,
+                                                          @RequestParam("model") String model) {
         try {
-            fileDBService.store(file);
+            fileDBService.store(file, model);
             Map<String, String> map = new HashMap<>();
             map.put("message", "Uploaded the file successfully: " + file.getOriginalFilename());
             return ResponseEntity.status(HttpStatus.OK).body(map);
@@ -43,7 +44,7 @@ public class FileController {
         }
     }
 
-    @GetMapping("/files")
+    @GetMapping("")
     public ResponseEntity<List<FileDAO>> getAllFiles() {
         List<FileDAO> files = fileDBService.getAllFiles().map(dbFile -> {
             String fileDownloadUri = ServletUriComponentsBuilder
@@ -58,13 +59,13 @@ public class FileController {
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
-    @GetMapping("/files/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<byte[]> getFile(@PathVariable String id) {
         FileDB fileDB = fileDBService.getFile(id);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\\\""
-                        + fileDB.getName() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="
+                        + fileDB.getName() + "")
                 .body(fileDB.getData());
     }
 }
