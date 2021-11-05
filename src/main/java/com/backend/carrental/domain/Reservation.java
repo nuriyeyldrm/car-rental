@@ -1,5 +1,6 @@
 package com.backend.carrental.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,8 +28,12 @@ public class Reservation implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User userId;
 
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="MM/dd/yyyy")
     private Date pickUpTime;
 
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="MM/dd/yyyy")
     private Date dropOfTime;
 
     private String pickUpLocation;
@@ -37,10 +42,8 @@ public class Reservation implements Serializable {
 
     private Boolean status;
 
-    public Reservation(Car carId, User userId, Date pickUpTime, Date dropOfTime, String pickUpLocation,
-                       String dropOfLocation, Boolean status) {
-        this.carId = carId;
-        this.userId = userId;
+    public Reservation(Date pickUpTime, Date dropOfTime, String pickUpLocation, String dropOfLocation,
+                       Boolean status) {
         this.pickUpTime = pickUpTime;
         this.dropOfTime = dropOfTime;
         this.pickUpLocation = pickUpLocation;

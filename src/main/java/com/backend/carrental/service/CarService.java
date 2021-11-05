@@ -1,6 +1,5 @@
 package com.backend.carrental.service;
 
-import com.backend.carrental.dao.CarDao;
 import com.backend.carrental.domain.Car;
 import com.backend.carrental.domain.FileDB;
 import com.backend.carrental.exception.BadRequestException;
