@@ -1,5 +1,6 @@
 package com.backend.carrental.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +29,7 @@ public class FileDB {
 
     private String type; // mime type
 
+    @JsonIgnore
     @Lob // datatype for storing large object data
     private byte[] data; // array of bytes, map to a BLOB (BLOB is for storing binary data)
 

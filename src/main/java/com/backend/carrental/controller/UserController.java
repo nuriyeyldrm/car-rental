@@ -124,5 +124,4 @@ public class UserController {
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
-
 }
