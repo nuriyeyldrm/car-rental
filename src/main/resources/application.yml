@@ -3,6 +3,9 @@ server:
     include-message: always
     include-binding-errors: always
     include-stacktrace: never
+  port: 8080
+  servlet:
+    context-path: /car-rental
 
 spring:
   datasource:

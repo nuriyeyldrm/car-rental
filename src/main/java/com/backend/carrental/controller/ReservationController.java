@@ -28,7 +28,7 @@ public class ReservationController {
 
     public ReservationService reservationService;
 
-    @GetMapping("/admin/all")
+    @GetMapping("/auth/all")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<List<Reservation>> getAllUserReservations(HttpServletRequest request){
         Long id = (Long) request.getAttribute("id");
@@ -50,7 +50,7 @@ public class ReservationController {
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/auth")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<Reservation> getUserReservationById(HttpServletRequest request){
         Long id = (Long) request.getAttribute("id");
