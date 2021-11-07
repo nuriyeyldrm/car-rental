@@ -33,7 +33,7 @@ The Car Management API implements a complex domain model flow to rental a car. T
 | DELETE | /api/admin/{id}/auth | delete to user (preauthorize admin) |
 #### ... continues
 
-#### Postman collections for user and admin part [https://www.getpostman.com/collections/f5dbf51ba0962c03e89f]
+#### All Postman collections [https://www.getpostman.com/collections/f5dbf51ba0962c03e89f]
 
 #### NOTE: All method except signup/login methods, needs Authorization Bearer token in header 
 
