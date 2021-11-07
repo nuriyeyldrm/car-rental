@@ -54,10 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/user/**").permitAll()
-                .antMatchers("/api/car/**").permitAll()
-                .antMatchers("/api/files/**").permitAll()
-                .antMatchers("/api/reservations/**").permitAll()
+                .authorizeRequests().antMatchers("/user/**", "/admin/**", "/car/**",
+                        "/files/**", "/reservations/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -65,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/api/car/visitors/**", "/swagger-ui.html", "/v2/api-docs",
+        web.ignoring().antMatchers("/car/visitors/**", "/swagger-ui.html", "/v2/api-docs",
                 "/configuration/**", "/swagger-resources/**",  "/webjars/**", "/api-docs/**");
     }
 }

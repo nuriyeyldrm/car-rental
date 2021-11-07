@@ -19,7 +19,7 @@ import java.util.Map;
 @AllArgsConstructor
 @RestController
 @Produces(MediaType.APPLICATION_JSON)
-@RequestMapping("/api/car")
+@RequestMapping("/car")
 public class CarController {
 
     public CarService carService;

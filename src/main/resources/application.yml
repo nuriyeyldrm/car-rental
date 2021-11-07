@@ -5,7 +5,7 @@ server:
     include-stacktrace: never
   port: 8080
   servlet:
-    context-path: /car-rental
+    context-path: /car-rental/api
 
 spring:
   datasource:

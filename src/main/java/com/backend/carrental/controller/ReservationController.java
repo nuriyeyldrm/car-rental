@@ -23,7 +23,7 @@ import java.util.Map;
 @AllArgsConstructor
 @RestController
 @Produces(MediaType.APPLICATION_JSON)
-@RequestMapping("/api/reservations")
+@RequestMapping("/reservations")
 public class ReservationController {
 
     public ReservationService reservationService;

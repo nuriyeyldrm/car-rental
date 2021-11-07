@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RestController
 @Produces(MediaType.APPLICATION_JSON)
 @CrossOrigin("http://localhost:8081")
-@RequestMapping(path = "/api/files")
+@RequestMapping(path = "/files")
 public class FileController {
 
     private final FileDBService fileDBService;

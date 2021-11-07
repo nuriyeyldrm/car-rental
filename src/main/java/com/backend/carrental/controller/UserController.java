@@ -27,7 +27,7 @@ import java.util.Map;
 @AllArgsConstructor
 @RestController
 @Produces(MediaType.APPLICATION_JSON)
-@RequestMapping("/api")
+@RequestMapping()
 public class UserController {
 
     public UserService userService;
