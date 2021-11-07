@@ -23,5 +23,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("SELECT r FROM Reservation r " +
             "LEFT JOIN fetch r.carId cd" +
             "LEFT JOIN fetch cdLEFT.image img WHERE r.id = ?1")
+    List<Reservation> findUserReservationsById(Long id);
+
+    @Transactional
+    @Query("SELECT r FROM Reservation r " +
+            "LEFT JOIN fetch r.carId cd" +
+            "LEFT JOIN fetch cdLEFT.image img WHERE r.id = ?1")
     Optional<Reservation> findReservationById(Long id);
 }
