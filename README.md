@@ -10,6 +10,7 @@ The Car Management API implements a complex domain model flow to rental a car. T
 - Javax
 - Jsonwebtoken
 - Lombok
+- Swagger
 
 ##### Application starts on localhost port 8080
 - [http://localhost:8080/api/user/*]
