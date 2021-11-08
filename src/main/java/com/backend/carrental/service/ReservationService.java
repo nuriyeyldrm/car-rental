@@ -4,6 +4,7 @@ import com.backend.carrental.domain.Car;
 import com.backend.carrental.domain.Reservation;
 import com.backend.carrental.domain.User;
 import com.backend.carrental.exception.BadRequestException;
+import com.backend.carrental.exception.ConflictException;
 import com.backend.carrental.exception.ResourceNotFoundException;
 import com.backend.carrental.repository.ReservationRepository;
 import com.backend.carrental.repository.UserRepository;
@@ -53,11 +54,17 @@ public class ReservationService {
         reservationRepository.save(reservation);
     }
 
-    public void updateReservation(Long id, Reservation reservation) throws BadRequestException {
+    public void updateReservation(Car carId, Long id, Reservation reservation) throws BadRequestException {
 
-        Optional<Reservation> reservation1 = reservationRepository.findById(id);
+        boolean reservationExist = reservationRepository.findById(id).isPresent();
 
-        reservationRepository.save(reservation1.get());
+        if (!reservationExist){
+            throw new ConflictException("Error: Reservation does not exist!");
+        }
+
+        reservation.setId(id);
+        reservation.setCarId(carId);
+        reservationRepository.save(reservation);
     }
 
     public void removeById(Long id) throws ResourceNotFoundException {

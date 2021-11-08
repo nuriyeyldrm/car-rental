@@ -68,7 +68,7 @@ public class ReservationController {
     @PostMapping("/add")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<Map<String, Boolean>> makeReservation(HttpServletRequest request,
-                                                                @RequestParam (value = "car_id") Car carId,
+                                                                @RequestParam (value = "car-id") Car carId,
                                                                 @Valid @RequestBody Reservation reservation) {
         String username = (String) request.getAttribute("username");
         reservationService.addReservation(reservation, username, carId);
@@ -77,11 +77,12 @@ public class ReservationController {
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
 
-    @PutMapping("/admin/{id}/auth")
+    @PutMapping("/admin/auth")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Map<String, Boolean>> updateReservation(@PathVariable Long id,
+    public ResponseEntity<Map<String, Boolean>> updateReservation(@RequestParam (value = "car-id") Car carId,
+                                                                  @RequestParam (value = "reservation-id") Long id,
                                                                   @Valid @RequestBody Reservation reservation) {
-        reservationService.updateReservation(id, reservation);
+        reservationService.updateReservation(carId, id, reservation);
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);
