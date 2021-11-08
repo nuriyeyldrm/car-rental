@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -29,10 +30,12 @@ public class Reservation implements Serializable {
     private User userId;
 
     @Temporal(TemporalType.DATE)
+//    @FutureOrPresent(message = "Please enter valid date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="MM/dd/yyyy")
     private Date pickUpTime;
 
     @Temporal(TemporalType.DATE)
+//    @FutureOrPresent(message = "Please enter valid date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="MM/dd/yyyy")
     private Date dropOfTime;
 

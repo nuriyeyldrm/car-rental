@@ -11,6 +11,7 @@ import com.backend.carrental.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +48,12 @@ public class ReservationService {
     }
 
     public void addReservation(Reservation reservation, String userName, Car carId) throws BadRequestException {
-        reservation.setStatus(true);
+        Optional<Reservation> checkStatus = reservationRepository.checkStatus(carId.getId(),
+                reservation.getPickUpTime());
+        if (checkStatus.isPresent())
+            reservation.setStatus(true);
+        else
+            throw new BadRequestException("Car is already reserved! Please choose another");
         reservation.setCarId(carId);
         Optional<User> user = userRepository.findByUsername(userName);
         reservation.setUserId(user.get());
@@ -61,6 +67,13 @@ public class ReservationService {
         if (!reservationExist){
             throw new ConflictException("Error: Reservation does not exist!");
         }
+
+        Optional<Reservation> checkStatus = reservationRepository.checkStatus(carId.getId(),
+                reservation.getPickUpTime());
+        if (checkStatus.isPresent())
+            reservation.setStatus(true);
+        else
+            throw new BadRequestException("Car is already reserved! Please choose another");
 
         reservation.setId(id);
         reservation.setCarId(carId);
