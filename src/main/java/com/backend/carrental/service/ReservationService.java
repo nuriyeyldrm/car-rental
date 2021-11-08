@@ -40,13 +40,13 @@ public class ReservationService {
                 new ResourceNotFoundException(String.format(RESERVATION_NOT_FOUND_MSG, id)));
     }
 
-    public Reservation findByUserId(Long id, Long userId) throws ResourceNotFoundException {
-        return reservationRepository.findReservationByUserId(id, userId).orElseThrow(() ->
+    public Reservation findByUserId(Long id, String username) throws ResourceNotFoundException {
+        return reservationRepository.findReservationByUserId(id, username).orElseThrow(() ->
                 new ResourceNotFoundException(String.format(RESERVATION_NOT_FOUND_MSG, id)));
     }
 
-    public List<Reservation> findAllByUserId(Long userId) throws ResourceNotFoundException {
-        return reservationRepository.findReservationsByUserId(userId);
+    public List<Reservation> findAllByUserId(String username) throws ResourceNotFoundException {
+        return reservationRepository.findReservationsByUserId(username);
     }
 
     public void addReservation(Reservation reservation, String userName, Car carId) throws BadRequestException {

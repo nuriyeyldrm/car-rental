@@ -29,7 +29,7 @@ public class ReservationController {
     @GetMapping("/admin/auth/all")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Reservation>> getAllUserReservations(@RequestParam (value = "id") Long id,
-                                                                    @RequestParam (value = "user_id") Long userId){
+                                                                    @RequestParam (value = "user-id") Long userId){
         List<Reservation> reservations = reservationService.fetchUserReservationsById(id, userId);
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
@@ -52,16 +52,16 @@ public class ReservationController {
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<Reservation> getUserReservationById(@PathVariable Long id,
                                                               HttpServletRequest request){
-        Long userId = (Long) request.getAttribute("id");
-        Reservation reservation = reservationService.findByUserId(id, userId);
+        String username = (String) request.getAttribute("username");
+        Reservation reservation = reservationService.findByUserId(id, username);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
-    @GetMapping("/auth")
+    @GetMapping("/auth/all")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<List<Reservation>> getUserReservationsById(HttpServletRequest request){
-        Long userId = (Long) request.getAttribute("id");
-        List<Reservation> reservation = reservationService.findAllByUserId(userId);
+        String username = (String) request.getAttribute("username");
+        List<Reservation> reservation = reservationService.findAllByUserId(username);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 

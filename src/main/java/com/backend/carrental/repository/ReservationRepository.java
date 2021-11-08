@@ -15,31 +15,34 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Transactional
     @Query("SELECT r FROM Reservation r " +
-            "LEFT JOIN fetch r.carId cd" +
-            "LEFT JOIN fetch cdLEFT.image img")
+            "LEFT JOIN fetch r.carId cd " +
+            "LEFT JOIN fetch cd.image img")
     List<Reservation> findAllReservation();
 
     @Transactional
     @Query("SELECT r FROM Reservation r " +
-            "LEFT JOIN fetch r.carId cd" +
-            "LEFT JOIN fetch cdLEFT.image img WHERE r.id = ?1 and r.userId = ?2")
+            "LEFT JOIN fetch r.carId cd " +
+            "LEFT JOIN fetch cd.image img " +
+            "LEFT JOIN fetch r.userId uid WHERE r.id = ?1 and uid.id = ?2")
     List<Reservation> findUserReservationsById(Long id, Long userId);
 
     @Transactional
     @Query("SELECT r FROM Reservation r " +
-            "LEFT JOIN fetch r.carId cd" +
-            "LEFT JOIN fetch cdLEFT.image img WHERE r.id = ?1")
+            "LEFT JOIN fetch r.carId cd " +
+            "LEFT JOIN fetch cd.image img WHERE r.id = ?1")
     Optional<Reservation> findReservationById(Long id);
 
     @Transactional
     @Query("SELECT r FROM Reservation r " +
-            "LEFT JOIN fetch r.carId cd" +
-            "LEFT JOIN fetch cdLEFT.image img WHERE r.id = ?1 and r.userId = ?2")
-    Optional<Reservation> findReservationByUserId(Long id, Long userId);
+            "LEFT JOIN fetch r.carId cd " +
+            "LEFT JOIN fetch cd.image img " +
+            "LEFT JOIN fetch r.userId uid WHERE r.id = ?1 and uid.username = ?2")
+    Optional<Reservation> findReservationByUserId(Long id, String username);
 
     @Transactional
     @Query("SELECT r FROM Reservation r " +
-            "LEFT JOIN fetch r.carId cd" +
-            "LEFT JOIN fetch cdLEFT.image img WHERE r.userId = ?1")
-    List<Reservation> findReservationsByUserId(Long userId);
+            "LEFT JOIN fetch r.carId cd " +
+            "LEFT JOIN fetch cd.image img " +
+            "LEFT JOIN fetch r.userId uid WHERE uid.username = ?1")
+    List<Reservation> findReservationsByUserId(String username);
 }
