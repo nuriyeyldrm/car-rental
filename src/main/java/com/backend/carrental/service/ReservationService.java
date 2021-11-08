@@ -27,8 +27,8 @@ public class ReservationService {
 
     private final static String RESERVATION_NOT_FOUND_MSG = "reservation with id %d not found";
 
-    public List<Reservation> fetchUserReservationsById(Long id){
-        return reservationRepository.findUserReservationsById(id);
+    public List<Reservation> fetchUserReservationsById(Long id, Long userId){
+        return reservationRepository.findUserReservationsById(id, userId);
     }
 
     public List<Reservation> fetchAllReservations(){
@@ -40,9 +40,13 @@ public class ReservationService {
                 new ResourceNotFoundException(String.format(RESERVATION_NOT_FOUND_MSG, id)));
     }
 
-    public Reservation findUserById(Long id) throws ResourceNotFoundException {
-        return reservationRepository.findReservationById(id).orElseThrow(() ->
+    public Reservation findByUserId(Long id, Long userId) throws ResourceNotFoundException {
+        return reservationRepository.findReservationByUserId(id, userId).orElseThrow(() ->
                 new ResourceNotFoundException(String.format(RESERVATION_NOT_FOUND_MSG, id)));
+    }
+
+    public List<Reservation> findAllByUserId(Long userId) throws ResourceNotFoundException {
+        return reservationRepository.findReservationsByUserId(userId);
     }
 
     public void addReservation(Reservation reservation, String userName, Car carId) throws BadRequestException {

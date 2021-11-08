@@ -2,7 +2,6 @@ package com.backend.carrental.controller;
 
 import com.backend.carrental.domain.Car;
 import com.backend.carrental.domain.Reservation;
-import com.backend.carrental.domain.User;
 import com.backend.carrental.service.ReservationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
@@ -28,11 +26,11 @@ public class ReservationController {
 
     public ReservationService reservationService;
 
-    @GetMapping("/auth/all")
-    @PreAuthorize("hasRole('CUSTOMER')")
-    public ResponseEntity<List<Reservation>> getAllUserReservations(HttpServletRequest request){
-        Long id = (Long) request.getAttribute("id");
-        List<Reservation> reservations = reservationService.fetchUserReservationsById(id);
+    @GetMapping("/admin/auth/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<Reservation>> getAllUserReservations(@RequestParam (value = "id") Long id,
+                                                                    @RequestParam (value = "user_id") Long userId){
+        List<Reservation> reservations = reservationService.fetchUserReservationsById(id, userId);
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
 
@@ -43,18 +41,27 @@ public class ReservationController {
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
 
-    @GetMapping("/admin/{id}")
+    @GetMapping("/{id}/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Reservation> getReservationById(@PathVariable Long id){
         Reservation reservation = reservationService.findById(id);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/auth")
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<Reservation> getUserReservationById(@PathVariable Long id,
+                                                              HttpServletRequest request){
+        Long userId = (Long) request.getAttribute("id");
+        Reservation reservation = reservationService.findByUserId(id, userId);
+        return new ResponseEntity<>(reservation, HttpStatus.OK);
+    }
+
     @GetMapping("/auth")
     @PreAuthorize("hasRole('CUSTOMER')")
-    public ResponseEntity<Reservation> getUserReservationById(HttpServletRequest request){
-        Long id = (Long) request.getAttribute("id");
-        Reservation reservation = reservationService.findById(id);
+    public ResponseEntity<List<Reservation>> getUserReservationsById(HttpServletRequest request){
+        Long userId = (Long) request.getAttribute("id");
+        List<Reservation> reservation = reservationService.findAllByUserId(userId);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
