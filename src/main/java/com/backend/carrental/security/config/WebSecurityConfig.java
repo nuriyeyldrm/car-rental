@@ -75,21 +75,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers( "/car/visitors/**", "/swagger-ui.html", "/v2/api-docs",
                 "/configuration/**", "/swagger-resources/**",  "/webjars/**", "/api-docs/**");
     }
-
-    @Bean
-    public FilterRegistrationBean<CorsFilter> corsFilter() {
-        FilterRegistrationBean<CorsFilter> registrationBean = new FilterRegistrationBean<>();
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedMethod("GET");
-        config.addAllowedMethod("POST");
-        config.addAllowedMethod("PUT");
-        config.addAllowedMethod("DELETE");
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        source.registerCorsConfiguration("/**", config);
-        registrationBean.setFilter(new CorsFilter(source));
-        registrationBean.setOrder(0);
-        return registrationBean;
-    }
 }
