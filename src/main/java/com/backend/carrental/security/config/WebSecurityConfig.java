@@ -4,6 +4,7 @@ import com.backend.carrental.security.jwt.AuthEntryPointJwt;
 import com.backend.carrental.security.jwt.AuthTokenFilter;
 import com.backend.carrental.security.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +18,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @AllArgsConstructor
@@ -51,20 +55,41 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        http.csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/car-rental/api/user/**", "/car-rental/api/admin/**",
                 "/car-rental/api/car/**", "/car-rental/api/files/**", "/car-rental/api/reservations/**").permitAll()
                 .anyRequest().authenticated();
 
+        http.csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .antMatcher("/car-rental/api/login")
+                .antMatcher("/car-rental/api/register");
+
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/car-rental/login", "/car-rental/register"," /car/visitors/**",
-                "/swagger-ui.html", "/v2/api-docs", "/configuration/**", "/swagger-resources/**",  "/webjars/**",
-                "/api-docs/**");
+        web.ignoring().antMatchers( "/car/visitors/**", "/swagger-ui.html", "/v2/api-docs",
+                "/configuration/**", "/swagger-resources/**",  "/webjars/**", "/api-docs/**");
+    }
+
+    @Bean
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
+        FilterRegistrationBean<CorsFilter> registrationBean = new FilterRegistrationBean<>();
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        source.registerCorsConfiguration("/**", config);
+        registrationBean.setFilter(new CorsFilter(source));
+        registrationBean.setOrder(0);
+        return registrationBean;
     }
 }
