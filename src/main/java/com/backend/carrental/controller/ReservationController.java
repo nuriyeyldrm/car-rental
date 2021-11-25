@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,6 +95,15 @@ public class ReservationController {
         reservationService.removeById(id);
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @GetMapping("/auth")
+    public ResponseEntity<Map<Date, Boolean>> checkCarAvailability(@RequestParam (value = "car-id") Long carId,
+                                                            @RequestParam (value = "date") Date date){
+        boolean availability = reservationService.carAvailability(carId, date);
+        Map<Date, Boolean> map = new HashMap<>();
+        map.put(date, availability);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }

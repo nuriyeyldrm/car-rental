@@ -57,7 +57,7 @@ public class UserController {
         return new ResponseEntity<>(userDao, HttpStatus.OK);
     }
 
-    @PostMapping("/user/register")
+    @PostMapping("/register")
     public ResponseEntity<Map<String, Boolean>> registerUser(@Valid @RequestBody User user) {
         userService.register(user);
 
@@ -66,7 +66,7 @@ public class UserController {
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
 
-    @PostMapping("/user/login")
+    @PostMapping("/login")
     public ResponseEntity<Map<String, String>> authenticateUser(@RequestBody Map<String, Object> userMap){
         String username = (String) userMap.get("username");
         String password = (String) userMap.get("password");

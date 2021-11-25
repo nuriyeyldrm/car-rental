@@ -54,8 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/user/**", "/admin/**", "/car/**",
-                        "/files/**", "/reservations/**").permitAll()
+                .authorizeRequests().antMatchers("/car-rental/api/user/**", "/car-rental/api/admin/**",
+                "/car-rental/api/car/**", "/car-rental/api/files/**", "/car-rental/api/reservations/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -63,7 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/car/visitors/**", "/swagger-ui.html", "/v2/api-docs",
-                "/configuration/**", "/swagger-resources/**",  "/webjars/**", "/api-docs/**");
+        web.ignoring().antMatchers("/car-rental/login", "/car-rental/register"," /car/visitors/**",
+                "/swagger-ui.html", "/v2/api-docs", "/configuration/**", "/swagger-resources/**",  "/webjars/**",
+                "/api-docs/**");
     }
 }

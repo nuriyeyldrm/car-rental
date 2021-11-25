@@ -48,9 +48,8 @@ public class ReservationService {
     }
 
     public void addReservation(Reservation reservation, String userName, Car carId) throws BadRequestException {
-        Optional<Reservation> checkStatus = reservationRepository.checkStatus(carId.getId(),
-                reservation.getPickUpTime());
-        if (checkStatus.isPresent())
+        boolean checkStatus = carAvailability(carId.getId(), reservation.getPickUpTime());
+        if (checkStatus)
             reservation.setStatus(true);
         else
             throw new BadRequestException("Car is already reserved! Please choose another");
@@ -68,9 +67,8 @@ public class ReservationService {
             throw new ConflictException("Error: Reservation does not exist!");
         }
 
-        Optional<Reservation> checkStatus = reservationRepository.checkStatus(carId.getId(),
-                reservation.getPickUpTime());
-        if (checkStatus.isPresent())
+        boolean checkStatus = carAvailability(carId.getId(), reservation.getPickUpTime());
+        if (checkStatus)
             reservation.setStatus(true);
         else
             throw new BadRequestException("Car is already reserved! Please choose another");
@@ -88,5 +86,10 @@ public class ReservationService {
         }
 
         reservationRepository.deleteById(id);
+    }
+
+    public boolean carAvailability(Long carId, Date date) {
+        Optional<Reservation> checkStatus = reservationRepository.checkStatus(carId, date);
+        return checkStatus.isPresent();
     }
 }
