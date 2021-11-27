@@ -4,7 +4,6 @@ import com.backend.carrental.dao.FileDAO;
 import com.backend.carrental.domain.FileDB;
 import com.backend.carrental.service.FileDBService;
 import lombok.AllArgsConstructor;
-import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
