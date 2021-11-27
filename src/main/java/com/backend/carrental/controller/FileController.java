@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,7 +20,6 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
-//@Produces(MediaType.APPLICATION_JSON)
 @CrossOrigin("http://localhost:8081")
 @RequestMapping(path = "/files")
 public class FileController {
@@ -27,6 +27,7 @@ public class FileController {
     private final FileDBService fileDBService;
 
     @PostMapping("/upload")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("file") MultipartFile file,
                                                           @RequestParam("model") String model) {
         try {
@@ -44,6 +45,7 @@ public class FileController {
     }
 
     @GetMapping("")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<FileDAO>> getAllFiles() {
         List<FileDAO> files = fileDBService.getAllFiles().map(dbFile -> {
             String fileDownloadUri = ServletUriComponentsBuilder
@@ -59,6 +61,7 @@ public class FileController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<byte[]> getFile(@PathVariable String id) {
         FileDB fileDB = fileDBService.getFile(id);
 
@@ -69,6 +72,7 @@ public class FileController {
     }
 
     @GetMapping("/display/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<byte[]> displayImage(@PathVariable String id) {
         FileDB fileDB = fileDBService.getFile(id);
 
