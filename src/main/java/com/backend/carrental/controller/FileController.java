@@ -4,15 +4,16 @@ import com.backend.carrental.dao.FileDAO;
 import com.backend.carrental.domain.FileDB;
 import com.backend.carrental.service.FileDBService;
 import lombok.AllArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
-@Produces(MediaType.APPLICATION_JSON)
+//@Produces(MediaType.APPLICATION_JSON)
 @CrossOrigin("http://localhost:8081")
 @RequestMapping(path = "/files")
 public class FileController {
@@ -67,5 +68,15 @@ public class FileController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="
                         + fileDB.getName() + "")
                 .body(fileDB.getData());
+    }
+
+    @GetMapping("/display/{id}")
+    public ResponseEntity<byte[]> displayImage(@PathVariable String id) {
+        FileDB fileDB = fileDBService.getFile(id);
+
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+
+        return new ResponseEntity<>(fileDB.getData(), headers, HttpStatus.CREATED);
     }
 }
