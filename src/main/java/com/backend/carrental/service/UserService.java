@@ -114,7 +114,7 @@ public class UserService {
         Set<String> userRoles = adminDao.getRole();
         Set<Role> roles = addRoles(userRoles);
 
-        User user = new User(id, adminDao.getFirstName(), adminDao.getLastName(), adminDao.getUsername(),
+        User user = new User(id, adminDao.getFirstName(), adminDao.getLastName(), userDetails.get().getUsername(),
                 adminDao.getPassword(), adminDao.getPhoneNumber(), adminDao.getEmail(), adminDao.getAddress(),
                 adminDao.getCity(), adminDao.getZipCode(), roles);
 
