@@ -44,8 +44,10 @@ public class Car implements Serializable {
 
     private Double pricePerDay;
 
+    private String fuelType;
+
     public Car(String model, Integer doors, Integer seats, Integer luggage, Integer transmission,
-               Boolean airConditioning, Integer age, Set<FileDB> image, Double pricePerDay) {
+               Boolean airConditioning, Integer age, Set<FileDB> image, Double pricePerDay, String fuelType) {
         this.model = model;
         this.doors = doors;
         this.seats = seats;
@@ -55,5 +57,6 @@ public class Car implements Serializable {
         this.age = age;
         this.image = image;
         this.pricePerDay = pricePerDay;
+        this.fuelType = fuelType;
     }
 }

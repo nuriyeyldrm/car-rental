@@ -27,6 +27,8 @@ public class CarDao {
 
     private Double pricePerDay;
 
+    private String fuelType;
+
     private String id;
 
     private String name;
