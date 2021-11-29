@@ -36,21 +36,21 @@ public class UserController {
 
     public JwtUtils jwtUtils;
 
-    @GetMapping("/admin/auth/all")
+    @GetMapping("/user/auth/all")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<User>> getAllUsers(){
         List<User> users = userService.fetchAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping("/admin/{id}/auth")
+    @GetMapping("/user/{id}/auth")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<User> getUserById(@PathVariable Long id){
         User user = userService.findById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping("/user/auth")
+    @GetMapping("/user")
     public ResponseEntity<UserDao> getUserByUsername(HttpServletRequest request){
         String username = (String) request.getAttribute("username");
         UserDao userDao = userService.findByUsername(username);
@@ -84,7 +84,7 @@ public class UserController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    @PutMapping("/user/auth")
+    @PutMapping("/user")
     public ResponseEntity<Map<String, Boolean>> updateUser(HttpServletRequest request,
                                                            @Valid @RequestBody UserDao userDao) {
         String username = (String) request.getAttribute("username");
@@ -94,7 +94,7 @@ public class UserController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    @PutMapping("/admin/{id}/auth")
+    @PutMapping("/user/{id}/auth")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Boolean>> updateUserAuth(@PathVariable Long id,
                                                                @Valid @RequestBody AdminDao adminDao) {
@@ -116,7 +116,7 @@ public class UserController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    @DeleteMapping("/admin/{id}/auth")
+    @DeleteMapping("/user/{id}/auth")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable Long id){
         userService.removeByUsername(id);

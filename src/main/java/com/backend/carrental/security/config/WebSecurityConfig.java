@@ -58,8 +58,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/car-rental/api/user/**", "/car-rental/api/admin/**",
-                "/car-rental/api/car/**", "/car-rental/api/files/**", "/car-rental/api/reservations/**").permitAll()
+                .authorizeRequests().antMatchers("/car-rental/api/user/**", "/car-rental/api/car/**",
+                "/car-rental/api/files/**", "/car-rental/api/reservations/**").permitAll()
                 .anyRequest().authenticated();
 
         http.csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
