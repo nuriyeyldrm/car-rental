@@ -24,6 +24,7 @@ public class CarRentalApplication {
         config.addAllowedMethod("POST");
         config.addAllowedMethod("PUT");
         config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("PATCH");
         config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
         source.registerCorsConfiguration("/**", config);
