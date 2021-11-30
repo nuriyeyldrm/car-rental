@@ -1,16 +1,17 @@
 package com.backend.carrental.dao;
 
+import com.backend.carrental.domain.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -48,13 +49,16 @@ public class UserDao {
     @NotNull(message = "Please enter your zip code")
     private String zipCode;
 
+    private Set<Role> role;
+
     public UserDao(String firstName, String lastName, String phoneNumber, String email,
-                   String address, String zipCode) {
+                   String address, String zipCode, Set<Role> role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
         this.zipCode = zipCode;
+        this.role = role;
     }
 }

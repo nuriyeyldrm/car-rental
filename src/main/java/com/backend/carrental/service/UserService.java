@@ -49,7 +49,7 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(ID_NOT_FOUND_MSG, id)));
 
         return new UserDao(user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getEmail(),
-                user.getAddress(), user.getZipCode());
+                user.getAddress(), user.getZipCode(), user.getRoles());
     }
 
     public void register(User user) throws BadRequestException {
