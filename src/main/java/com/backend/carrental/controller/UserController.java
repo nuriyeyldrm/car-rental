@@ -45,15 +45,15 @@ public class UserController {
 
     @GetMapping("/user/{id}/auth")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> getUserById(@PathVariable Long id){
-        User user = userService.findById(id);
+    public ResponseEntity<User> getUserByIdAdmin(@PathVariable Long id){
+        User user = userService.findByIdAdmin(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping("/user")
-    public ResponseEntity<UserDao> getUserByUsername(HttpServletRequest request){
-        String username = (String) request.getAttribute("username");
-        UserDao userDao = userService.findByUsername(username);
+    public ResponseEntity<UserDao> getUserById(HttpServletRequest request){
+        Long id = (Long) request.getAttribute("id");
+        UserDao userDao = userService.findById(id);
         return new ResponseEntity<>(userDao, HttpStatus.OK);
     }
 
@@ -68,13 +68,13 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> authenticateUser(@RequestBody Map<String, Object> userMap){
-        String username = (String) userMap.get("username");
+        String email = (String) userMap.get("email");
         String password = (String) userMap.get("password");
 
-        userService.login(username, password);
+        userService.login(email, password);
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password));
+                new UsernamePasswordAuthenticationToken(email, password));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
@@ -87,8 +87,8 @@ public class UserController {
     @PutMapping("/user")
     public ResponseEntity<Map<String, Boolean>> updateUser(HttpServletRequest request,
                                                            @Valid @RequestBody UserDao userDao) {
-        String username = (String) request.getAttribute("username");
-        userService.updateUser(username, userDao);
+        Long id = (Long) request.getAttribute("id");
+        userService.updateUser(id, userDao);
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);
@@ -107,10 +107,10 @@ public class UserController {
     @PatchMapping("/user/auth")
     public ResponseEntity<Map<String, Boolean>> updatePassword(HttpServletRequest request,
                                                                @RequestBody Map<String, Object> userMap) {
-        String username = (String) request.getAttribute("username");
+        Long id = (Long) request.getAttribute("id");
         String newPassword = (String) userMap.get("newPassword");
         String oldPassword = (String) userMap.get("oldPassword");
-        userService.updatePassword(username, newPassword, oldPassword);
+        userService.updatePassword(id, newPassword, oldPassword);
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);
@@ -119,7 +119,7 @@ public class UserController {
     @DeleteMapping("/user/{id}/auth")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable Long id){
-        userService.removeByUsername(id);
+        userService.removeById(id);
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);

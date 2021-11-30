@@ -26,9 +26,6 @@ public class UserDao {
     @NotNull(message = "Please enter your last name")
     private String lastName;
 
-    @Size(min = 3, max = 20, message = "Please enter min 3 characters")
-    private String username;
-
     @JsonIgnore
     private String password;
 
@@ -55,11 +52,10 @@ public class UserDao {
     @NotNull(message = "Please enter your zip code")
     private String zipCode;
 
-    public UserDao(String firstName, String lastName, String username, String phoneNumber, String email,
-                   String address, String city, String zipCode) {
+    public UserDao(String firstName, String lastName, String phoneNumber, String email, String address,
+                   String city, String zipCode) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;

@@ -16,9 +16,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByUsername(String username) throws ResourceNotFoundException;
-
-    Boolean existsByUsername(String username) throws ConflictException;
+    Optional<User> findByEmail(String email) throws ResourceNotFoundException;
 
     Boolean existsByEmail(String email) throws ConflictException;
 
@@ -26,8 +24,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query("UPDATE User u " +
             "SET u.firstName = ?2, u.lastName = ?3, u.phoneNumber = ?4, u.email = ?5, u.address = ?6, " +
-            "u.city = ?7, u.zipCode = ?8 WHERE u.username = ?1")
-    void update(String username, String firstName, String lastName, String phoneNumber, String email, String address,
+            "u.city = ?7, u.zipCode = ?8 WHERE u.id = ?1")
+    void update(Long id, String firstName, String lastName, String phoneNumber, String email, String address,
                 String city, String zipCode) throws BadRequestException;
 
 }

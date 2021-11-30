@@ -38,23 +38,23 @@ public class ReservationService {
                 new ResourceNotFoundException(String.format(RESERVATION_NOT_FOUND_MSG, id)));
     }
 
-    public Reservation findByUserId(Long id, String username) throws ResourceNotFoundException {
-        return reservationRepository.findReservationByUserId(id, username).orElseThrow(() ->
+    public Reservation findByUserId(Long id, Long userId) throws ResourceNotFoundException {
+        return reservationRepository.findReservationByUserId(id, userId).orElseThrow(() ->
                 new ResourceNotFoundException(String.format(RESERVATION_NOT_FOUND_MSG, id)));
     }
 
-    public List<Reservation> findAllByUserId(String username) throws ResourceNotFoundException {
-        return reservationRepository.findReservationsByUserId(username);
+    public List<Reservation> findAllByUserId(Long id) throws ResourceNotFoundException {
+        return reservationRepository.findReservationsByUserId(id);
     }
 
-    public void addReservation(Reservation reservation, String userName, Car carId) throws BadRequestException {
+    public void addReservation(Reservation reservation, Long id, Car carId) throws BadRequestException {
         boolean checkStatus = carAvailability(carId.getId(), reservation.getPickUpTime());
         if (checkStatus)
             reservation.setStatus(true);
         else
             throw new BadRequestException("Car is already reserved! Please choose another");
         reservation.setCarId(carId);
-        Optional<User> user = userRepository.findByUsername(userName);
+        Optional<User> user = userRepository.findById(id);
         reservation.setUserId(user.get());
         reservationRepository.save(reservation);
     }

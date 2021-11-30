@@ -26,9 +26,6 @@ public class AdminDao {
     @NotNull(message = "Please enter your last name")
     private String lastName;
 
-    @Size(min = 3, max = 20, message = "Please enter min 3 characters")
-    private String username;
-
     @Size(min = 4, max = 60, message = "Please enter min 4 characters")
     @NotNull(message = "Please enter your password")
     private String password;

@@ -50,7 +50,7 @@ public class FileController {
         List<FileDAO> files = fileDBService.getAllFiles().map(dbFile -> {
             String fileDownloadUri = ServletUriComponentsBuilder
                     .fromCurrentContextPath()
-                    .path("/api/files/")
+                    .path("/files/")
                     .path(dbFile.getId())
                     .toUriString();
 
@@ -61,7 +61,6 @@ public class FileController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<byte[]> getFile(@PathVariable String id) {
         FileDB fileDB = fileDBService.getFile(id);
 
@@ -72,7 +71,6 @@ public class FileController {
     }
 
     @GetMapping("/display/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<byte[]> displayImage(@PathVariable String id) {
         FileDB fileDB = fileDBService.getFile(id);
 

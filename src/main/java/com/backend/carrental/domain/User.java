@@ -36,11 +36,6 @@ public class User implements Serializable {
     @Column(nullable = false, length = 15)
     private String lastName;
 
-    @Size(min = 3, max = 20, message = "Please enter min 3 characters")
-    @NotNull(message = "Please enter your user name")
-    @Column(nullable = false, unique = true, updatable = false, length = 20)
-    private String username;
-
     @Size(min = 4, max = 60, message = "Please enter min 4 characters")
     @NotNull(message = "Please enter your password")
     @Column(nullable = false, length = 120)
@@ -80,11 +75,10 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User(String firstName, String lastName, String username, String password, String phoneNumber,
-                String email, String address, String city, String zipCode) {
+    public User(String firstName, String lastName, String password, String phoneNumber, String email,
+                String address, String city, String zipCode) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.email = email;

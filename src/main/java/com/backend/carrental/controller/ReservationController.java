@@ -53,16 +53,16 @@ public class ReservationController {
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<Reservation> getUserReservationById(@PathVariable Long id,
                                                               HttpServletRequest request){
-        String username = (String) request.getAttribute("username");
-        Reservation reservation = reservationService.findByUserId(id, username);
+        Long userId = (Long) request.getAttribute("id");
+        Reservation reservation = reservationService.findByUserId(id, userId);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
     @GetMapping("/auth/all")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<List<Reservation>> getUserReservationsById(HttpServletRequest request){
-        String username = (String) request.getAttribute("username");
-        List<Reservation> reservation = reservationService.findAllByUserId(username);
+        Long userId = (Long) request.getAttribute("id");
+        List<Reservation> reservation = reservationService.findAllByUserId(userId);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
@@ -71,8 +71,8 @@ public class ReservationController {
     public ResponseEntity<Map<String, Boolean>> makeReservation(HttpServletRequest request,
                                                                 @RequestParam (value = "car-id") Car carId,
                                                                 @Valid @RequestBody Reservation reservation) {
-        String username = (String) request.getAttribute("username");
-        reservationService.addReservation(reservation, username, carId);
+        Long userId = (Long) request.getAttribute("id");
+        reservationService.addReservation(reservation, userId, carId);
         Map<String, Boolean> map = new HashMap<>();
         map.put("User registered successfully!", true);
         return new ResponseEntity<>(map, HttpStatus.CREATED);

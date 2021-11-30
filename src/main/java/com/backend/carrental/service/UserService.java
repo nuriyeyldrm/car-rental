@@ -33,29 +33,26 @@ public class UserService {
 
     private final static String USER_NOT_FOUND_MSG = "user with id %d not found";
 
-    private final static String USERNAME_NOT_FOUND_MSG = "user with username %s not found";
+    private final static String ID_NOT_FOUND_MSG = "user with id %s not found";
 
     public List<User> fetchAllUsers(){
         return userRepository.findAll();
     }
 
-    public User findById(Long id) throws ResourceNotFoundException {
+    public User findByIdAdmin(Long id) throws ResourceNotFoundException {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(USER_NOT_FOUND_MSG, id)));
     }
 
-    public UserDao findByUsername(String username) throws ResourceNotFoundException {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format(USERNAME_NOT_FOUND_MSG, username)));
+    public UserDao findById(Long id) throws ResourceNotFoundException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(ID_NOT_FOUND_MSG, id)));
 
-        return new UserDao(user.getFirstName(), user.getLastName(), user.getUsername(), user.getPhoneNumber(),
-                user.getEmail(), user.getAddress(), user.getCity(), user.getZipCode());
+        return new UserDao(user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getEmail(),
+                user.getAddress(), user.getCity(), user.getZipCode());
     }
 
     public void register(User user) throws BadRequestException {
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new ConflictException("Error: Username is already taken!");
-        }
 
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new ConflictException("Error: Email is already in use!");
@@ -74,9 +71,9 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void login(String username, String password) throws AuthException {
+    public void login(String email, String password) throws AuthException {
         try {
-            Optional<User> user = userRepository.findByUsername(username);
+            Optional<User> user = userRepository.findByEmail(email);
 
             if (!BCrypt.checkpw(password, user.get().getPassword()))
                 throw new AuthException("invalid credentials");
@@ -85,16 +82,16 @@ public class UserService {
         }
     }
 
-    public void updateUser(String username, UserDao userDao) throws BadRequestException {
+    public void updateUser(Long id, UserDao userDao) throws BadRequestException {
 
         boolean emailExists = userRepository.existsByEmail(userDao.getEmail());
-        Optional<User> userDetails = userRepository.findByUsername(username);
+        Optional<User> userDetails = userRepository.findById(id);
 
         if (emailExists && !userDao.getEmail().equals(userDetails.get().getEmail())){
             throw new ConflictException("Error: Email is already in use!");
         }
 
-        userRepository.update(username, userDao.getFirstName(), userDao.getLastName(), userDao.getPhoneNumber(),
+        userRepository.update(id, userDao.getFirstName(), userDao.getLastName(), userDao.getPhoneNumber(),
                 userDao.getEmail(), userDao.getAddress(), userDao.getCity(), userDao.getZipCode());
     }
 
@@ -114,15 +111,15 @@ public class UserService {
         Set<String> userRoles = adminDao.getRole();
         Set<Role> roles = addRoles(userRoles);
 
-        User user = new User(id, adminDao.getFirstName(), adminDao.getLastName(), userDetails.get().getUsername(),
-                adminDao.getPassword(), adminDao.getPhoneNumber(), adminDao.getEmail(), adminDao.getAddress(),
-                adminDao.getCity(), adminDao.getZipCode(), roles);
+        User user = new User(id, adminDao.getFirstName(), adminDao.getLastName(), adminDao.getPassword(),
+                adminDao.getPhoneNumber(), adminDao.getEmail(), adminDao.getAddress(), adminDao.getCity(),
+                adminDao.getZipCode(), roles);
 
         userRepository.save(user);
     }
 
-    public void updatePassword(String username, String newPassword, String oldPassword) throws BadRequestException {
-        Optional<User> user = userRepository.findByUsername(username);
+    public void updatePassword(Long id, String newPassword, String oldPassword) throws BadRequestException {
+        Optional<User> user = userRepository.findById(id);
         if (!(BCrypt.hashpw(oldPassword, user.get().getPassword()).equals(user.get().getPassword())))
             throw new BadRequestException("password does not match");
 
@@ -131,7 +128,7 @@ public class UserService {
         userRepository.save(user.get());
     }
 
-    public void removeByUsername(Long id) throws ResourceNotFoundException {
+    public void removeById(Long id) throws ResourceNotFoundException {
         boolean userExists = userRepository.existsById(id);
 
         if (!userExists){

@@ -37,15 +37,15 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("SELECT r FROM Reservation r " +
             "LEFT JOIN fetch r.carId cd " +
             "LEFT JOIN fetch cd.image img " +
-            "LEFT JOIN fetch r.userId uid WHERE r.id = ?1 and uid.username = ?2")
-    Optional<Reservation> findReservationByUserId(Long id, String username);
+            "LEFT JOIN fetch r.userId uid WHERE r.id = ?1 and uid.id = ?2")
+    Optional<Reservation> findReservationByUserId(Long id, Long userId);
 
     @Transactional
     @Query("SELECT r FROM Reservation r " +
             "LEFT JOIN fetch r.carId cd " +
             "LEFT JOIN fetch cd.image img " +
-            "LEFT JOIN fetch r.userId uid WHERE uid.username = ?1")
-    List<Reservation> findReservationsByUserId(String username);
+            "LEFT JOIN fetch r.userId uid WHERE uid.id = ?1")
+    List<Reservation> findReservationsByUserId(Long userId);
 
     @Transactional
     @Query("SELECT r FROM Reservation r " +
