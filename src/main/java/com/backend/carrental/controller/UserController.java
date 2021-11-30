@@ -51,6 +51,7 @@ public class UserController {
     }
 
     @GetMapping("/user")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<UserDao> getUserById(HttpServletRequest request){
         Long id = (Long) request.getAttribute("id");
         UserDao userDao = userService.findById(id);
@@ -85,6 +86,7 @@ public class UserController {
     }
 
     @PutMapping("/user")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<Map<String, Boolean>> updateUser(HttpServletRequest request,
                                                            @Valid @RequestBody UserDao userDao) {
         Long id = (Long) request.getAttribute("id");
@@ -105,6 +107,7 @@ public class UserController {
     }
 
     @PatchMapping("/user/auth")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<Map<String, Boolean>> updatePassword(HttpServletRequest request,
                                                                @RequestBody Map<String, Object> userMap) {
         Long id = (Long) request.getAttribute("id");

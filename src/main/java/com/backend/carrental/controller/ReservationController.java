@@ -99,6 +99,7 @@ public class ReservationController {
     }
 
     @GetMapping("/auth")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<Map<Date, Boolean>> checkCarAvailability(@RequestParam (value = "car-id") Long carId,
                                                             @RequestParam (value = "date") Date date){
         boolean availability = reservationService.carAvailability(carId, date);
