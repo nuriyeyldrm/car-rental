@@ -45,21 +45,16 @@ public class UserDao {
     private String address;
 
     @Size(max = 15)
-    @NotNull(message = "Please enter your city")
-    private String city;
-
-    @Size(max = 15)
     @NotNull(message = "Please enter your zip code")
     private String zipCode;
 
-    public UserDao(String firstName, String lastName, String phoneNumber, String email, String address,
-                   String city, String zipCode) {
+    public UserDao(String firstName, String lastName, String phoneNumber, String email,
+                   String address, String zipCode) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
-        this.city = city;
         this.zipCode = zipCode;
     }
 }

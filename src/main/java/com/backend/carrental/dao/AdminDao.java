@@ -46,10 +46,6 @@ public class AdminDao {
     private String address;
 
     @Size(max = 15)
-    @NotNull(message = "Please enter your city")
-    private String city;
-
-    @Size(max = 15)
     @NotNull(message = "Please enter your zip code")
     private String zipCode;
 

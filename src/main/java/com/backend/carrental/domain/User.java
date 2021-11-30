@@ -60,11 +60,6 @@ public class User implements Serializable {
     private String address;
 
     @Size(max = 15)
-    @NotNull(message = "Please enter your city")
-    @Column(nullable = false, length = 15)
-    private String city;
-
-    @Size(max = 15)
     @NotNull(message = "Please enter your zip code")
     @Column(nullable = false, length = 15)
     private String zipCode;
@@ -76,14 +71,13 @@ public class User implements Serializable {
     private Set<Role> roles = new HashSet<>();
 
     public User(String firstName, String lastName, String password, String phoneNumber, String email,
-                String address, String city, String zipCode) {
+                String address, String zipCode) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
-        this.city = city;
         this.zipCode = zipCode;
     }
 }

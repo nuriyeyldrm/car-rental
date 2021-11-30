@@ -49,7 +49,7 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(ID_NOT_FOUND_MSG, id)));
 
         return new UserDao(user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getEmail(),
-                user.getAddress(), user.getCity(), user.getZipCode());
+                user.getAddress(), user.getZipCode());
     }
 
     public void register(User user) throws BadRequestException {
@@ -92,7 +92,7 @@ public class UserService {
         }
 
         userRepository.update(id, userDao.getFirstName(), userDao.getLastName(), userDao.getPhoneNumber(),
-                userDao.getEmail(), userDao.getAddress(), userDao.getCity(), userDao.getZipCode());
+                userDao.getEmail(), userDao.getAddress(), userDao.getZipCode());
     }
 
     public void updateUserAuth(Long id, AdminDao adminDao) throws BadRequestException {
@@ -112,8 +112,7 @@ public class UserService {
         Set<Role> roles = addRoles(userRoles);
 
         User user = new User(id, adminDao.getFirstName(), adminDao.getLastName(), adminDao.getPassword(),
-                adminDao.getPhoneNumber(), adminDao.getEmail(), adminDao.getAddress(), adminDao.getCity(),
-                adminDao.getZipCode(), roles);
+                adminDao.getPhoneNumber(), adminDao.getEmail(), adminDao.getAddress(), adminDao.getZipCode(), roles);
 
         userRepository.save(user);
     }

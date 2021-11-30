@@ -24,8 +24,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query("UPDATE User u " +
             "SET u.firstName = ?2, u.lastName = ?3, u.phoneNumber = ?4, u.email = ?5, u.address = ?6, " +
-            "u.city = ?7, u.zipCode = ?8 WHERE u.id = ?1")
+            "u.zipCode = ?7 WHERE u.id = ?1")
     void update(Long id, String firstName, String lastName, String phoneNumber, String email, String address,
-                String city, String zipCode) throws BadRequestException;
+                String zipCode) throws BadRequestException;
 
 }
