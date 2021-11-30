@@ -49,7 +49,7 @@ public class ReservationService {
 
     public void addReservation(Reservation reservation, Long id, Car carId) throws BadRequestException {
         boolean checkStatus = carAvailability(carId.getId(), reservation.getPickUpTime());
-        if (checkStatus)
+        if (!checkStatus)
             reservation.setStatus(true);
         else
             throw new BadRequestException("Car is already reserved! Please choose another");
