@@ -50,7 +50,7 @@ public class ReservationController {
     }
 
     @GetMapping("/{id}/auth")
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
     public ResponseEntity<Reservation> getUserReservationById(@PathVariable Long id,
                                                               HttpServletRequest request){
         Long userId = (Long) request.getAttribute("id");
@@ -59,7 +59,7 @@ public class ReservationController {
     }
 
     @GetMapping("/auth/all")
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
     public ResponseEntity<List<Reservation>> getUserReservationsById(HttpServletRequest request){
         Long userId = (Long) request.getAttribute("id");
         List<Reservation> reservation = reservationService.findAllByUserId(userId);
@@ -67,7 +67,7 @@ public class ReservationController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
     public ResponseEntity<Map<String, Boolean>> makeReservation(HttpServletRequest request,
                                                                 @RequestParam (value = "car-id") Car carId,
                                                                 @Valid @RequestBody Reservation reservation) {
@@ -99,7 +99,7 @@ public class ReservationController {
     }
 
     @GetMapping("/auth")
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
     public ResponseEntity<Map<Date, Boolean>> checkCarAvailability(@RequestParam (value = "car-id") Long carId,
                                                             @RequestParam (value = "date") Date date){
         boolean availability = reservationService.carAvailability(carId, date);
