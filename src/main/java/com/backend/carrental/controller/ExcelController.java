@@ -33,10 +33,21 @@ public class ExcelController {
     }
 
     @GetMapping("/download/cars")
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Resource> getCarFile() {
         String fileName = "cars.xlsx";
         InputStreamResource file = new InputStreamResource(excelService.loadCar());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
+                .contentType(MediaType.parseMediaType("application/vnd.ms-excel")).body(file);
+    }
+
+    @GetMapping("/download/reservations")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Resource> getReservationFile() {
+        String fileName = "reservations.xlsx";
+        InputStreamResource file = new InputStreamResource(excelService.loadReservation());
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)

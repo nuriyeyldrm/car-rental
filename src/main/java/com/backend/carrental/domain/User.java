@@ -80,4 +80,8 @@ public class User implements Serializable {
         this.address = address;
         this.zipCode = zipCode;
     }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
 }
