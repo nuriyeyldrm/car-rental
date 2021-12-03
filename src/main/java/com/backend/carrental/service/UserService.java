@@ -104,9 +104,14 @@ public class UserService {
             throw new ConflictException("Error: Email is already in use!");
         }
 
-        String encodedPassword = passwordEncoder.encode(adminDao.getPassword());
+        if (adminDao.getPassword() == null) {
+            adminDao.setPassword(userDetails.get().getPassword());
+        }
 
-        adminDao.setPassword(encodedPassword);
+        else {
+            String encodedPassword = passwordEncoder.encode(adminDao.getPassword());
+            adminDao.setPassword(encodedPassword);
+        }
 
         Set<String> userRoles = adminDao.getRole();
         Set<Role> roles = addRoles(userRoles);

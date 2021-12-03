@@ -27,7 +27,6 @@ public class AdminDao {
     private String lastName;
 
     @Size(min = 4, max = 60, message = "Please enter min 4 characters")
-    @NotNull(message = "Please enter your password")
     private String password;
 
     @Pattern(regexp = "^((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$",
