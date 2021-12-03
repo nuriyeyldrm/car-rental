@@ -21,11 +21,22 @@ public class ExcelController {
 
     ExcelService excelService;
 
-    @GetMapping("/download")
+    @GetMapping("/download/users")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Resource> getFile() {
+    public ResponseEntity<Resource> getUserFile() {
         String fileName = "customers.xlsx";
-        InputStreamResource file = new InputStreamResource(excelService.load());
+        InputStreamResource file = new InputStreamResource(excelService.loadUser());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
+                .contentType(MediaType.parseMediaType("application/vnd.ms-excel")).body(file);
+    }
+
+    @GetMapping("/download/cars")
+//    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Resource> getCarFile() {
+        String fileName = "cars.xlsx";
+        InputStreamResource file = new InputStreamResource(excelService.loadCar());
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)

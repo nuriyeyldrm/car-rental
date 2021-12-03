@@ -1,7 +1,9 @@
 package com.backend.carrental.service;
 
+import com.backend.carrental.domain.Car;
 import com.backend.carrental.domain.User;
 import com.backend.carrental.helper.ExcelHelper;
+import com.backend.carrental.repository.CarRepository;
 import com.backend.carrental.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,17 @@ import java.util.List;
 public class ExcelService {
 
     UserRepository userRepository;
+    CarRepository carRepository;
 
-    public ByteArrayInputStream load() {
+    public ByteArrayInputStream loadUser() {
         List<User> users = userRepository.findAll();
 
         return ExcelHelper.usersExcel(users);
+    }
+
+    public ByteArrayInputStream loadCar() {
+        List<Car> cars = carRepository.findAll();
+
+        return ExcelHelper.carsExcel(cars);
     }
 }
