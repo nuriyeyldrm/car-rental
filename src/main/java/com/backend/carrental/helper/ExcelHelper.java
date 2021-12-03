@@ -35,12 +35,12 @@ public class ExcelHelper {
 
                 row.createCell(0).setCellValue(user.getId());
                 row.createCell(1).setCellValue(user.getFirstName());
-                row.createCell(0).setCellValue(user.getLastName());
-                row.createCell(0).setCellValue(user.getPhoneNumber());
-                row.createCell(0).setCellValue(user.getEmail());
-                row.createCell(0).setCellValue(user.getAddress());
-                row.createCell(0).setCellValue(user.getZipCode());
-                row.createCell(0).setCellValue(user.getRoles().toString());
+                row.createCell(2).setCellValue(user.getLastName());
+                row.createCell(3).setCellValue(user.getPhoneNumber());
+                row.createCell(4).setCellValue(user.getEmail());
+                row.createCell(5).setCellValue(user.getAddress());
+                row.createCell(6).setCellValue(user.getZipCode());
+                row.createCell(7).setCellValue(user.getRoles().toString());
             }
 
             workbook.write(out);
