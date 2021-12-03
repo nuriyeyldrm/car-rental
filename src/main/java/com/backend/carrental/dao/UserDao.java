@@ -49,16 +49,16 @@ public class UserDao {
     @NotNull(message = "Please enter your zip code")
     private String zipCode;
 
-    private Set<Role> role;
+    private Set<Role> roles;
 
     public UserDao(String firstName, String lastName, String phoneNumber, String email,
-                   String address, String zipCode, Set<Role> role) {
+                   String address, String zipCode, Set<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
         this.zipCode = zipCode;
-        this.role = role;
+        this.roles = roles;
     }
 }

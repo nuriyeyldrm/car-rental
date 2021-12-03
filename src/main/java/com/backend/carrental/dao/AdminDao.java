@@ -48,5 +48,5 @@ public class AdminDao {
     @NotNull(message = "Please enter your zip code")
     private String zipCode;
 
-    private Set<String> role;
+    private Set<String> roles;
 }
