@@ -39,17 +39,21 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    // unused
     public User findByIdAdmin(Long id) throws ResourceNotFoundException {
         return userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format(USER_NOT_FOUND_MSG, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(ID_NOT_FOUND_MSG, id)));
     }
 
     public UserDao findById(Long id) throws ResourceNotFoundException {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format(ID_NOT_FOUND_MSG, id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(USER_NOT_FOUND_MSG, id)));
+
+        UserDao userDao = new UserDao();
+        userDao.setRoles(user.getRoles());
 
         return new UserDao(user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getEmail(),
-                user.getAddress(), user.getZipCode(), user.getRoles());
+                user.getAddress(), user.getZipCode(), userDao.getRoles());
     }
 
     public void register(User user) throws BadRequestException {
