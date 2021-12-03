@@ -113,7 +113,7 @@ public class UserService {
             adminDao.setPassword(encodedPassword);
         }
 
-        Set<String> userRoles = adminDao.getRole();
+        Set<String> userRoles = adminDao.getRoles();
         Set<Role> roles = addRoles(userRoles);
 
         User user = new User(id, adminDao.getFirstName(), adminDao.getLastName(), adminDao.getPassword(),
