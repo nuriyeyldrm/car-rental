@@ -86,6 +86,26 @@ public class UserService {
         }
     }
 
+    public void addUserAuth(AdminDao adminDao) throws BadRequestException {
+
+        boolean emailExists = userRepository.existsByEmail(adminDao.getEmail());
+
+        if (emailExists){
+            throw new ConflictException("Error: Email is already in use!");
+        }
+
+        String encodedPassword = passwordEncoder.encode(adminDao.getPassword());
+        adminDao.setPassword(encodedPassword);
+
+        Set<String> userRoles = adminDao.getRoles();
+        Set<Role> roles = addRoles(userRoles);
+
+        User user = new User(adminDao.getFirstName(), adminDao.getLastName(), adminDao.getPassword(),
+                adminDao.getPhoneNumber(), adminDao.getEmail(), adminDao.getAddress(), adminDao.getZipCode(), roles);
+
+        userRepository.save(user);
+    }
+
     public void updateUser(Long id, UserDao userDao) throws BadRequestException {
 
         boolean emailExists = userRepository.existsByEmail(userDao.getEmail());

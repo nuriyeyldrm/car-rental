@@ -81,6 +81,18 @@ public class User implements Serializable {
         this.zipCode = zipCode;
     }
 
+    public User(String firstName, String lastName, String password, String phoneNumber, String email,
+                String address, String zipCode, Set<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+        this.zipCode = zipCode;
+        this.roles = roles;
+    }
+
     public String getFullName() {
         return firstName + " " + lastName;
     }
