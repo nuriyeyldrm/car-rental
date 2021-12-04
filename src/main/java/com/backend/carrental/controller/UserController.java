@@ -1,7 +1,7 @@
 package com.backend.carrental.controller;
 
-import com.backend.carrental.dao.AdminDao;
-import com.backend.carrental.dao.UserDao;
+import com.backend.carrental.dao.AdminDTO;
+import com.backend.carrental.dao.UserDTO;
 import com.backend.carrental.domain.User;
 import com.backend.carrental.projection.ProjectUser;
 import com.backend.carrental.security.jwt.JwtUtils;
@@ -46,16 +46,16 @@ public class UserController {
 
     @GetMapping("/user/{id}/auth")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<UserDao> getUserByIdAdmin(@PathVariable Long id){
-        UserDao user = userService.findById(id);
+    public ResponseEntity<UserDTO> getUserByIdAdmin(@PathVariable Long id){
+        UserDTO user = userService.findById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping("/user")
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
-    public ResponseEntity<UserDao> getUserById(HttpServletRequest request){
+    public ResponseEntity<UserDTO> getUserById(HttpServletRequest request){
         Long id = (Long) request.getAttribute("id");
-        UserDao userDao = userService.findById(id);
+        UserDTO userDao = userService.findById(id);
         return new ResponseEntity<>(userDao, HttpStatus.OK);
     }
 
@@ -88,8 +88,8 @@ public class UserController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Map<String, Boolean>> addUser(@Valid @RequestBody AdminDao adminDao) {
-        userService.addUserAuth(adminDao);
+    public ResponseEntity<Map<String, Boolean>> addUser(@Valid @RequestBody AdminDTO adminDTO) {
+        userService.addUserAuth(adminDTO);
 
         Map<String, Boolean> map = new HashMap<>();
         map.put("User added successfully!", true);
@@ -99,7 +99,7 @@ public class UserController {
     @PutMapping("/user")
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
     public ResponseEntity<Map<String, Boolean>> updateUser(HttpServletRequest request,
-                                                           @Valid @RequestBody UserDao userDao) {
+                                                           @Valid @RequestBody UserDTO userDao) {
         Long id = (Long) request.getAttribute("id");
         userService.updateUser(id, userDao);
         Map<String, Boolean> map = new HashMap<>();
@@ -110,8 +110,8 @@ public class UserController {
     @PutMapping("/user/{id}/auth")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Boolean>> updateUserAuth(@PathVariable Long id,
-                                                               @Valid @RequestBody AdminDao adminDao) {
-        userService.updateUserAuth(id, adminDao);
+                                                               @Valid @RequestBody AdminDTO adminDTO) {
+        userService.updateUserAuth(id, adminDTO);
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);

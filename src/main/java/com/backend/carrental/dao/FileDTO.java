@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class FileDAO {
+public class FileDTO {
 
     private String name;
     private String url;

@@ -1,8 +1,6 @@
 package com.backend.carrental.dao;
 
 import com.backend.carrental.domain.Role;
-import com.backend.carrental.domain.enumeration.UserRole;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,14 +10,13 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
 import java.util.Set;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDao {
+public class AdminDTO {
 
     @Size(max = 15)
     @NotNull(message = "Please enter your first name")
@@ -29,7 +26,7 @@ public class UserDao {
     @NotNull(message = "Please enter your last name")
     private String lastName;
 
-    @JsonIgnore
+    @Size(min = 4, max = 60, message = "Please enter min 4 characters")
     private String password;
 
     @Pattern(regexp = "^((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$",
@@ -52,29 +49,4 @@ public class UserDao {
     private String zipCode;
 
     private Set<String> roles;
-
-    public UserDao(String firstName, String lastName, String phoneNumber, String email,
-                   String address, String zipCode, Set<String> roles) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.address = address;
-        this.zipCode = zipCode;
-        this.roles = roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        Set<String> roles1 = new HashSet<>();
-        Role[] role = roles.toArray(new Role[roles.size()]);
-
-        for (int i = 0; i < roles.size(); i++) {
-            if (role[i].getName().equals(UserRole.ROLE_ADMIN))
-                roles1.add("Administrator");
-            else
-                roles1.add("Customer");
-        }
-
-        this.roles = roles1;
-    }
 }

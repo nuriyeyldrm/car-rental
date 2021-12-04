@@ -1,6 +1,5 @@
 package com.backend.carrental.repository;
 
-import com.backend.carrental.dao.AdminDao;
 import com.backend.carrental.domain.User;
 import com.backend.carrental.exception.BadRequestException;
 import com.backend.carrental.exception.ConflictException;

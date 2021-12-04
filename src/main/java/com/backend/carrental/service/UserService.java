@@ -1,7 +1,7 @@
 package com.backend.carrental.service;
 
-import com.backend.carrental.dao.AdminDao;
-import com.backend.carrental.dao.UserDao;
+import com.backend.carrental.dao.AdminDTO;
+import com.backend.carrental.dao.UserDTO;
 import com.backend.carrental.domain.Role;
 import com.backend.carrental.domain.User;
 import com.backend.carrental.domain.enumeration.UserRole;
@@ -46,14 +46,14 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(ID_NOT_FOUND_MSG, id)));
     }
 
-    public UserDao findById(Long id) throws ResourceNotFoundException {
+    public UserDTO findById(Long id) throws ResourceNotFoundException {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(USER_NOT_FOUND_MSG, id)));
 
-        UserDao userDao = new UserDao();
+        UserDTO userDao = new UserDTO();
         userDao.setRoles(user.getRole());
 
-        return new UserDao(user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getEmail(),
+        return new UserDTO(user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getEmail(),
                 user.getAddress(), user.getZipCode(), userDao.getRoles());
     }
 
@@ -87,27 +87,27 @@ public class UserService {
         }
     }
 
-    public void addUserAuth(AdminDao adminDao) throws BadRequestException {
+    public void addUserAuth(AdminDTO adminDTO) throws BadRequestException {
 
-        boolean emailExists = userRepository.existsByEmail(adminDao.getEmail());
+        boolean emailExists = userRepository.existsByEmail(adminDTO.getEmail());
 
         if (emailExists){
             throw new ConflictException("Error: Email is already in use!");
         }
 
-        String encodedPassword = passwordEncoder.encode(adminDao.getPassword());
-        adminDao.setPassword(encodedPassword);
+        String encodedPassword = passwordEncoder.encode(adminDTO.getPassword());
+        adminDTO.setPassword(encodedPassword);
 
-        Set<String> userRoles = adminDao.getRoles();
+        Set<String> userRoles = adminDTO.getRoles();
         Set<Role> roles = addRoles(userRoles);
 
-        User user = new User(adminDao.getFirstName(), adminDao.getLastName(), adminDao.getPassword(),
-                adminDao.getPhoneNumber(), adminDao.getEmail(), adminDao.getAddress(), adminDao.getZipCode(), roles);
+        User user = new User(adminDTO.getFirstName(), adminDTO.getLastName(), adminDTO.getPassword(),
+                adminDTO.getPhoneNumber(), adminDTO.getEmail(), adminDTO.getAddress(), adminDTO.getZipCode(), roles);
 
         userRepository.save(user);
     }
 
-    public void updateUser(Long id, UserDao userDao) throws BadRequestException {
+    public void updateUser(Long id, UserDTO userDao) throws BadRequestException {
 
         boolean emailExists = userRepository.existsByEmail(userDao.getEmail());
         Optional<User> userDetails = userRepository.findById(id);
@@ -120,29 +120,29 @@ public class UserService {
                 userDao.getEmail(), userDao.getAddress(), userDao.getZipCode());
     }
 
-    public void updateUserAuth(Long id, AdminDao adminDao) throws BadRequestException {
+    public void updateUserAuth(Long id, AdminDTO adminDTO) throws BadRequestException {
 
-        boolean emailExists = userRepository.existsByEmail(adminDao.getEmail());
+        boolean emailExists = userRepository.existsByEmail(adminDTO.getEmail());
         Optional<User> userDetails = userRepository.findById(id);
 
-        if (emailExists && !adminDao.getEmail().equals(userDetails.get().getEmail())){
+        if (emailExists && !adminDTO.getEmail().equals(userDetails.get().getEmail())){
             throw new ConflictException("Error: Email is already in use!");
         }
 
-        if (adminDao.getPassword() == null) {
-            adminDao.setPassword(userDetails.get().getPassword());
+        if (adminDTO.getPassword() == null) {
+            adminDTO.setPassword(userDetails.get().getPassword());
         }
 
         else {
-            String encodedPassword = passwordEncoder.encode(adminDao.getPassword());
-            adminDao.setPassword(encodedPassword);
+            String encodedPassword = passwordEncoder.encode(adminDTO.getPassword());
+            adminDTO.setPassword(encodedPassword);
         }
 
-        Set<String> userRoles = adminDao.getRoles();
+        Set<String> userRoles = adminDTO.getRoles();
         Set<Role> roles = addRoles(userRoles);
 
-        User user = new User(id, adminDao.getFirstName(), adminDao.getLastName(), adminDao.getPassword(),
-                adminDao.getPhoneNumber(), adminDao.getEmail(), adminDao.getAddress(), adminDao.getZipCode(), roles);
+        User user = new User(id, adminDTO.getFirstName(), adminDTO.getLastName(), adminDTO.getPassword(),
+                adminDTO.getPhoneNumber(), adminDTO.getEmail(), adminDTO.getAddress(), adminDTO.getZipCode(), roles);
 
         userRepository.save(user);
     }

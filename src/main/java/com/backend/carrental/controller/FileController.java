@@ -1,6 +1,6 @@
 package com.backend.carrental.controller;
 
-import com.backend.carrental.dao.FileDAO;
+import com.backend.carrental.dao.FileDTO;
 import com.backend.carrental.domain.FileDB;
 import com.backend.carrental.service.FileDBService;
 import lombok.AllArgsConstructor;
@@ -46,15 +46,15 @@ public class FileController {
 
     @GetMapping("")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<FileDAO>> getAllFiles() {
-        List<FileDAO> files = fileDBService.getAllFiles().map(dbFile -> {
+    public ResponseEntity<List<FileDTO>> getAllFiles() {
+        List<FileDTO> files = fileDBService.getAllFiles().map(dbFile -> {
             String fileDownloadUri = ServletUriComponentsBuilder
                     .fromCurrentContextPath()
                     .path("/files/")
                     .path(dbFile.getId())
                     .toUriString();
 
-            return new FileDAO(dbFile.getName(), fileDownloadUri, dbFile.getType(), dbFile.getData().length);
+            return new FileDTO(dbFile.getName(), fileDownloadUri, dbFile.getType(), dbFile.getData().length);
         }).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(files);
