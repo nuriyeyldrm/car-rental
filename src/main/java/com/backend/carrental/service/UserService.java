@@ -9,6 +9,7 @@ import com.backend.carrental.exception.AuthException;
 import com.backend.carrental.exception.BadRequestException;
 import com.backend.carrental.exception.ConflictException;
 import com.backend.carrental.exception.ResourceNotFoundException;
+import com.backend.carrental.projection.ProjectUser;
 import com.backend.carrental.repository.RoleRepository;
 import com.backend.carrental.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -35,8 +36,8 @@ public class UserService {
 
     private final static String ID_NOT_FOUND_MSG = "user with id %s not found";
 
-    public List<User> fetchAllUsers(){
-        return userRepository.findAll();
+    public List<ProjectUser> fetchAllUsers(){
+        return userRepository.findAllBy();
     }
 
     // unused

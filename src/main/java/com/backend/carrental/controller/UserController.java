@@ -3,6 +3,7 @@ package com.backend.carrental.controller;
 import com.backend.carrental.dao.AdminDao;
 import com.backend.carrental.dao.UserDao;
 import com.backend.carrental.domain.User;
+import com.backend.carrental.projection.ProjectUser;
 import com.backend.carrental.security.jwt.JwtUtils;
 import com.backend.carrental.service.UserService;
 import lombok.AllArgsConstructor;
@@ -38,8 +39,8 @@ public class UserController {
 
     @GetMapping("/user/auth/all")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<User>> getAllUsers(){
-        List<User> users = userService.fetchAllUsers();
+    public ResponseEntity<List<ProjectUser>> getAllUsers(){
+        List<ProjectUser> users = userService.fetchAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 

@@ -1,5 +1,6 @@
 package com.backend.carrental.domain;
 
+import com.backend.carrental.domain.enumeration.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -95,5 +96,18 @@ public class User implements Serializable {
 
     public String getFullName() {
         return firstName + " " + lastName;
+    }
+
+    public Set<String> getRolex() {
+        Set<String> roles1 = new HashSet<>();
+        Role[] role = roles.toArray(new Role[roles.size()]);
+
+        for (int i = 0; i < roles.size(); i++) {
+            if (role[i].getName().equals(UserRole.ROLE_ADMIN))
+                roles1.add("Administrator");
+            else
+                roles1.add("Customer");
+        }
+        return roles1;
     }
 }
