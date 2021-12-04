@@ -1,4 +1,4 @@
-package com.backend.carrental.dao;
+package com.backend.carrental.dto;
 
 import com.backend.carrental.domain.Role;
 import com.backend.carrental.domain.enumeration.UserRole;

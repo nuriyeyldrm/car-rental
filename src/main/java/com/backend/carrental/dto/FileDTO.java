@@ -1,4 +1,4 @@
-package com.backend.carrental.dao;
+package com.backend.carrental.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

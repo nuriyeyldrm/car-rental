@@ -1,6 +1,5 @@
-package com.backend.carrental.dao;
+package com.backend.carrental.dto;
 
-import com.backend.carrental.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

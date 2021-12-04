@@ -1,6 +1,6 @@
 package com.backend.carrental.controller;
 
-import com.backend.carrental.dao.FileDTO;
+import com.backend.carrental.dto.FileDTO;
 import com.backend.carrental.domain.FileDB;
 import com.backend.carrental.service.FileDBService;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
 package com.backend.carrental.service;
 
-import com.backend.carrental.dao.AdminDTO;
-import com.backend.carrental.dao.UserDTO;
+import com.backend.carrental.dto.AdminDTO;
+import com.backend.carrental.dto.UserDTO;
 import com.backend.carrental.domain.Role;
 import com.backend.carrental.domain.User;
 import com.backend.carrental.domain.enumeration.UserRole;
