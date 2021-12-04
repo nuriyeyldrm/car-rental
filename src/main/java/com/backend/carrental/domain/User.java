@@ -98,7 +98,11 @@ public class User implements Serializable {
         return firstName + " " + lastName;
     }
 
-    public Set<String> getRolex() {
+    public Set<Role> getRole() {
+        return roles;
+    }
+
+    public Set<String> getRoles() {
         Set<String> roles1 = new HashSet<>();
         Role[] role = roles.toArray(new Role[roles.size()]);
 

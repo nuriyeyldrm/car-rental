@@ -18,6 +18,6 @@ public interface ProjectUser {
 
     String getZipCode();
 
-    Set<String> getRolex();
+    Set<String> getRoles();
 
 }

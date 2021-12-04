@@ -51,7 +51,7 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(USER_NOT_FOUND_MSG, id)));
 
         UserDao userDao = new UserDao();
-        userDao.setRoles(user.getRoles());
+        userDao.setRoles(user.getRole());
 
         return new UserDao(user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getEmail(),
                 user.getAddress(), user.getZipCode(), userDao.getRoles());
