@@ -40,12 +40,6 @@ public class UserService {
         return userRepository.findAllBy();
     }
 
-    // unused
-    public User findByIdAdmin(Long id) throws ResourceNotFoundException {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format(ID_NOT_FOUND_MSG, id)));
-    }
-
     public UserDTO findById(Long id) throws ResourceNotFoundException {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(USER_NOT_FOUND_MSG, id)));
