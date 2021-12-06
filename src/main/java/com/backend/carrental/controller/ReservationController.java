@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,10 +101,10 @@ public class ReservationController {
 
     @GetMapping("/auth")
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
-    public ResponseEntity<Map<Date, Boolean>> checkCarAvailability(@RequestParam (value = "car-id") Long carId,
-                                                            @RequestParam (value = "date") Date date){
+    public ResponseEntity<Map<LocalDateTime, Boolean>> checkCarAvailability(@RequestParam (value = "car-id") Long carId,
+                                                            @RequestParam (value = "date") LocalDateTime date){
         boolean availability = reservationService.carAvailability(carId, date);
-        Map<Date, Boolean> map = new HashMap<>();
+        Map<LocalDateTime, Boolean> map = new HashMap<>();
         map.put(date, availability);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }

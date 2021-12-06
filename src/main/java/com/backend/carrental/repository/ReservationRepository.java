@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,5 +52,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "LEFT JOIN fetch r.carId cd " +
             "LEFT JOIN fetch cd.image img " +
             "LEFT JOIN fetch r.userId uid WHERE cd.id = ?1 and (?2 BETWEEN r.pickUpTime and r.dropOfTime)")
-    Optional<Reservation> checkStatus(Long carId, Date pickUpTime);
+    Optional<Reservation> checkStatus(Long carId, LocalDateTime pickUpTime);
 }

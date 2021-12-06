@@ -8,11 +8,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.joda.time.DateTimeZone;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.TimeZone;
 
 public class ExcelHelper {
 
@@ -119,8 +121,8 @@ public class ExcelHelper {
                 row.createCell(3).setCellValue(reservation.getUserId().getId());
                 row.createCell(4).setCellValue(reservation.getUserId().getFullName());
                 row.createCell(5).setCellValue(reservation.getUserId().getPhoneNumber());
-                row.createCell(6).setCellValue(reservation.getPickUpTime());
-                row.createCell(7).setCellValue(reservation.getDropOfTime());
+                row.createCell(6).setCellValue(reservation.getPickUpTime().toString());
+                row.createCell(7).setCellValue(reservation.getDropOfTime().toString());
                 row.createCell(8).setCellValue(reservation.getPickUpLocation());
                 row.createCell(9).setCellValue(reservation.getDropOfLocation());
                 row.createCell(10).setCellValue(reservation.getStatus());

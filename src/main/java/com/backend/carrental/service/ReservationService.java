@@ -6,12 +6,15 @@ import com.backend.carrental.domain.User;
 import com.backend.carrental.exception.BadRequestException;
 import com.backend.carrental.exception.ConflictException;
 import com.backend.carrental.exception.ResourceNotFoundException;
+import com.backend.carrental.repository.CarRepository;
 import com.backend.carrental.repository.ReservationRepository;
 import com.backend.carrental.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +25,8 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
 
     private final UserRepository userRepository;
+
+    private final CarRepository carRepository;
 
     private final static String RESERVATION_NOT_FOUND_MSG = "reservation with id %d not found";
 
@@ -49,6 +54,8 @@ public class ReservationService {
 
     public void addReservation(Reservation reservation, Long id, Car carId) throws BadRequestException {
         boolean checkStatus = carAvailability(carId.getId(), reservation.getPickUpTime());
+        Optional<Car> car = carRepository.findCarById(carId.getId());
+
         if (!checkStatus)
             reservation.setStatus(true);
         else
@@ -56,6 +63,11 @@ public class ReservationService {
         reservation.setCarId(carId);
         Optional<User> user = userRepository.findById(id);
         reservation.setUserId(user.get());
+
+        long hours = reservation.getTotalHours();
+        Double totalPrice = car.get().getPricePerDay() * hours;
+        reservation.setTotalPrice(totalPrice);
+
         reservationRepository.save(reservation);
     }
 
@@ -88,7 +100,7 @@ public class ReservationService {
         reservationRepository.deleteById(id);
     }
 
-    public boolean carAvailability(Long carId, Date date) {
+    public boolean carAvailability(Long carId, LocalDateTime date) {
         Optional<Reservation> checkStatus = reservationRepository.checkStatus(carId, date);
         return checkStatus.isPresent();
     }
