@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Setter
@@ -22,7 +23,8 @@ public class FileDB {
     private String id; // automatically generated as UUID
 
     @Size(max = 30)
-    @Column(length = 30)
+    @NotNull(message = "Please enter car model")
+    @Column(length = 30, nullable = false)
     private String model;
 
     private String name; // name of the file

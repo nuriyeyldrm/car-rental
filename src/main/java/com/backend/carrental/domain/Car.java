@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
@@ -21,7 +22,8 @@ public class Car implements Serializable {
     private Long id;
 
     @Size(max = 30)
-    @Column(length = 30)
+    @NotNull(message = "Please enter car model")
+    @Column(length = 30, nullable = false)
     private String model;
 
     private Integer doors;
