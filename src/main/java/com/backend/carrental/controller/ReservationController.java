@@ -31,7 +31,7 @@ public class ReservationController {
     @GetMapping("/admin/auth/all")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Reservation>> getAllUserReservations(@RequestParam (value = "id") Long id,
-                                                                    @RequestParam (value = "user-id") Long userId){
+                                                                    @RequestParam (value = "userId") Long userId){
         List<Reservation> reservations = reservationService.fetchUserReservationsById(id, userId);
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
