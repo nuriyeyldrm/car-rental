@@ -103,10 +103,10 @@ public class ReservationController {
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
     public ResponseEntity<Map<String, Boolean>> checkCarAvailability(
                                                 @RequestParam (value = "carId") Long carId,
-                                                @RequestParam (value = "pickUpTime")
+                                                @RequestParam (value = "pickUpDateTime")
                                                         @DateTimeFormat(pattern = "MM/dd/yyyy HH:mm:ss")
                                                                 LocalDateTime pickUpTime,
-                                                @RequestParam (value = "dropOffTime")
+                                                @RequestParam (value = "dropOffDateTime")
                                                         @DateTimeFormat(pattern = "MM/dd/yyyy HH:mm:ss")
                                                                 LocalDateTime dropOffTime ){
 
