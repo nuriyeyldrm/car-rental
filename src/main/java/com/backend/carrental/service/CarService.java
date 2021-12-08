@@ -3,7 +3,6 @@ package com.backend.carrental.service;
 import com.backend.carrental.domain.Car;
 import com.backend.carrental.domain.FileDB;
 import com.backend.carrental.exception.BadRequestException;
-import com.backend.carrental.exception.ConflictException;
 import com.backend.carrental.exception.ResourceNotFoundException;
 import com.backend.carrental.repository.CarRepository;
 import com.backend.carrental.repository.FileDBRepository;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @AllArgsConstructor

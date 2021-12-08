@@ -32,7 +32,7 @@ public class FileController {
         try {
             FileDB fileDB = fileDBService.store(file);
             Map<String, String> map = new HashMap<>();
-            map.put("imageId:", fileDB.getId());
+            map.put("imageId", fileDB.getId());
             return ResponseEntity.status(HttpStatus.OK).body(map);
 
         } catch (Exception e) {
