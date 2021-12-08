@@ -87,7 +87,7 @@ public class ExcelHelper {
                 row.createCell(5).setCellValue(car.getTransmission());
                 row.createCell(6).setCellValue(car.getAirConditioning());
                 row.createCell(7).setCellValue(car.getAge());
-                row.createCell(8).setCellValue(car.getPricePerDay());
+                row.createCell(8).setCellValue(car.getPricePerHour());
                 row.createCell(9).setCellValue(car.getFuelType());
             }
 

@@ -42,12 +42,12 @@ public class Car implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "file_id"))
     private Set<FileDB> image;
 
-    private Double pricePerDay;
+    private Double pricePerHour;
 
     private String fuelType;
 
     public Car(String model, Integer doors, Integer seats, Integer luggage, Integer transmission,
-               Boolean airConditioning, Integer age, Set<FileDB> image, Double pricePerDay, String fuelType) {
+               Boolean airConditioning, Integer age, Set<FileDB> image, Double pricePerHour, String fuelType) {
         this.model = model;
         this.doors = doors;
         this.seats = seats;
@@ -56,7 +56,7 @@ public class Car implements Serializable {
         this.airConditioning = airConditioning;
         this.age = age;
         this.image = image;
-        this.pricePerDay = pricePerDay;
+        this.pricePerHour = pricePerHour;
         this.fuelType = fuelType;
     }
 }

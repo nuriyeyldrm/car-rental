@@ -65,7 +65,7 @@ public class ReservationService {
         reservation.setUserId(user.get());
 
         long hours = reservation.getTotalHours();
-        Double totalPrice = car.get().getPricePerDay() * hours;
+        Double totalPrice = car.get().getPricePerHour() * hours;
         reservation.setTotalPrice(totalPrice);
 
         reservationRepository.save(reservation);
