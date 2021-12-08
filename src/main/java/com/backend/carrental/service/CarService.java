@@ -34,8 +34,8 @@ public class CarService {
                     new ResourceNotFoundException(String.format(CAR_NOT_FOUND_MSG, id)));
     }
 
-    public void add(Car car, Long imageId) throws BadRequestException {
-        FileDB fileDB = fileDBRepository.findByIdx(imageId);
+    public void add(Car car, String imageId) throws BadRequestException {
+        FileDB fileDB = fileDBRepository.findById(imageId).get();
 
         Set<FileDB> fileDBs = new HashSet<>();
         fileDBs.add(fileDB);
@@ -44,10 +44,10 @@ public class CarService {
         carRepository.save(car);
     }
 
-    public void updateCar(Long id, Car car, Long imageId) throws BadRequestException {
+    public void updateCar(Long id, Car car, String imageId) throws BadRequestException {
 
         car.setId(id);
-        FileDB fileDB = fileDBRepository.findByIdx(imageId);
+        FileDB fileDB = fileDBRepository.findById(imageId).get();
 
         Set<FileDB> fileDBs = new HashSet<>();
         fileDBs.add(fileDB);

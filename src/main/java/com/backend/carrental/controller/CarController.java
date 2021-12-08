@@ -38,7 +38,7 @@ public class CarController {
 
     @PostMapping("/admin/{id}/add")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Map<String, Boolean>> addCar(@PathVariable Long id,
+    public ResponseEntity<Map<String, Boolean>> addCar(@PathVariable String id,
                                                        @Valid @RequestBody Car car) {
         carService.add(car, id);
         Map<String, Boolean> map = new HashMap<>();
@@ -49,7 +49,7 @@ public class CarController {
     @PutMapping("/admin/auth")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Boolean>> updateCar(@RequestParam("id") Long id,
-                                                          @RequestParam("imageId") Long imageId,
+                                                          @RequestParam("imageId") String imageId,
                                                           @Valid @RequestBody Car car) {
         carService.updateCar(id, car, imageId);
         Map<String, Boolean> map = new HashMap<>();
