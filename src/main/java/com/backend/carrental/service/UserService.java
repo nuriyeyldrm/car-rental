@@ -34,8 +34,6 @@ public class UserService {
 
     private final static String USER_NOT_FOUND_MSG = "user with id %d not found";
 
-    private final static String ID_NOT_FOUND_MSG = "user with id %s not found";
-
     public List<ProjectUser> fetchAllUsers(){
         return userRepository.findAllBy();
     }
@@ -92,6 +90,7 @@ public class UserService {
 
         String encodedPassword = passwordEncoder.encode(adminDTO.getPassword());
         adminDTO.setPassword(encodedPassword);
+        adminDTO.setBuiltIn(false);
 
         Set<String> userRoles = adminDTO.getRoles();
         Set<Role> roles = addRoles(userRoles);
@@ -128,6 +127,8 @@ public class UserService {
         if (userDetails.get().getBuiltIn()){
             throw new ResourceNotFoundException("You dont have permission to update user info!");
         }
+
+        adminDTO.setBuiltIn(false);
 
         if (emailExists && !adminDTO.getEmail().equals(userDetails.get().getEmail())){
             throw new ConflictException("Error: Email is already in use!");
