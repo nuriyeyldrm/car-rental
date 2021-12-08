@@ -20,4 +20,5 @@ public interface ProjectUser {
 
     Set<String> getRoles();
 
+    Boolean getBuiltIn();
 }
