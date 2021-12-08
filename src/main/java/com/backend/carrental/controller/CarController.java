@@ -36,20 +36,22 @@ public class CarController {
         return new ResponseEntity<>(car, HttpStatus.OK);
     }
 
-    @PostMapping("/admin/add")
+    @PostMapping("/admin/{id}/add")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Map<String, Boolean>> addCar(@Valid @RequestBody Car car) {
-        carService.add(car);
+    public ResponseEntity<Map<String, Boolean>> addCar(@PathVariable Long id,
+                                                       @Valid @RequestBody Car car) {
+        carService.add(car, id);
         Map<String, Boolean> map = new HashMap<>();
         map.put("User registered successfully!", true);
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
 
-    @PutMapping("/admin/{id}/auth")
+    @PutMapping("/admin/auth")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Map<String, Boolean>> updateCar(@PathVariable Long id,
-                                                              @Valid @RequestBody Car car) {
-        carService.updateCar(id, car);
+    public ResponseEntity<Map<String, Boolean>> updateCar(@RequestParam("id") Long id,
+                                                          @RequestParam("imageId") Long imageId,
+                                                          @Valid @RequestBody Car car) {
+        carService.updateCar(id, car, imageId);
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);

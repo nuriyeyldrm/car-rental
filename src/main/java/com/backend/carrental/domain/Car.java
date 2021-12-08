@@ -21,7 +21,7 @@ public class Car implements Serializable {
     private Long id;
 
     @Size(max = 30)
-    @Column(length = 30, unique = true)
+    @Column(length = 30)
     private String model;
 
     private Integer doors;

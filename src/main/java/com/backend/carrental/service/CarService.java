@@ -34,8 +34,8 @@ public class CarService {
                     new ResourceNotFoundException(String.format(CAR_NOT_FOUND_MSG, id)));
     }
 
-    public void add(Car car) throws BadRequestException {
-        FileDB fileDB = fileDBRepository.findByModel(car.getModel());
+    public void add(Car car, Long imageId) throws BadRequestException {
+        FileDB fileDB = fileDBRepository.findByIdx(imageId);
 
         Set<FileDB> fileDBs = new HashSet<>();
         fileDBs.add(fileDB);
@@ -44,17 +44,10 @@ public class CarService {
         carRepository.save(car);
     }
 
-    public void updateCar(Long id, Car car) throws BadRequestException {
-
-        boolean modelExists = carRepository.existsByModel(car.getModel());
-        Optional<Car> carInf = carRepository.findById(id);
-
-        if (modelExists && !car.getModel().equals(carInf.get().getModel())){
-            throw new ConflictException("Error: Model is already exist!");
-        }
+    public void updateCar(Long id, Car car, Long imageId) throws BadRequestException {
 
         car.setId(id);
-        FileDB fileDB = fileDBRepository.findByModel(car.getModel());
+        FileDB fileDB = fileDBRepository.findByIdx(imageId);
 
         Set<FileDB> fileDBs = new HashSet<>();
         fileDBs.add(fileDB);

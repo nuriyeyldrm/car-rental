@@ -9,5 +9,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface FileDBRepository extends JpaRepository<FileDB, String> {
 
-    FileDB findByModel(String model);
+    FileDB findByIdx(Long id);
 }

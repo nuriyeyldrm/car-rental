@@ -21,8 +21,12 @@ public class FileDB {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id; // automatically generated as UUID
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true)
+    private Long idx;
+
     @Size(max = 30)
-    @Column(length = 30, unique = true)
+    @Column(length = 30)
     private String model;
 
     private String name; // name of the file
