@@ -22,11 +22,6 @@ public class FileDB {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id; // automatically generated as UUID
 
-    @Size(max = 30)
-    @NotNull(message = "Please enter car model")
-    @Column(length = 30, nullable = false)
-    private String model;
-
     private String name; // name of the file
 
     private String type; // mime type
@@ -35,8 +30,7 @@ public class FileDB {
     @Lob // datatype for storing large object data
     private byte[] data; // array of bytes, map to a BLOB (BLOB is for storing binary data)
 
-    public FileDB(String model, String name, String type, byte[] data) {
-        this.model = model;
+    public FileDB(String name, String type, byte[] data) {
         this.name = name;
         this.type = type;
         this.data = data;

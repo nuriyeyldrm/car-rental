@@ -9,7 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class FileDTO {
 
-    private String model;
     private String name;
     private String url;
     private String type;

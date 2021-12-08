@@ -28,12 +28,11 @@ public class FileController {
 
     @PostMapping("/upload")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("file") MultipartFile file,
-                                                          @RequestParam("model") String model) {
+    public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
-            fileDBService.store(file, model);
+            FileDB fileDB = fileDBService.store(file);
             Map<String, String> map = new HashMap<>();
-            map.put("message", "Uploaded the file successfully: " + file.getOriginalFilename());
+            map.put("imageId:", fileDB.getId());
             return ResponseEntity.status(HttpStatus.OK).body(map);
 
         } catch (Exception e) {
@@ -54,7 +53,7 @@ public class FileController {
                     .path(dbFile.getId())
                     .toUriString();
 
-            return new FileDTO(dbFile.getModel(), dbFile.getName(), fileDownloadUri, dbFile.getType(),
+            return new FileDTO(dbFile.getName(), fileDownloadUri, dbFile.getType(),
                     dbFile.getData().length);
         }).collect(Collectors.toList());
 
