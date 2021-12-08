@@ -1,6 +1,7 @@
 package com.backend.carrental.controller;
 
 import com.backend.carrental.domain.Car;
+import com.backend.carrental.dto.CarDTO;
 import com.backend.carrental.service.CarService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,8 +26,8 @@ public class CarController {
     public CarService carService;
 
     @GetMapping("/visitors/all")
-    public ResponseEntity<List<Car>> getAllCars(){
-        List<Car> cars = carService.fetchAllCars();
+    public ResponseEntity<List<CarDTO>> getAllCars(){
+        List<CarDTO> cars = carService.fetchAllCars();
         return new ResponseEntity<>(cars, HttpStatus.OK);
     }
 

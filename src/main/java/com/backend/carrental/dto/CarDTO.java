@@ -1,17 +1,18 @@
 package com.backend.carrental.dto;
 
+import com.backend.carrental.domain.Car;
 import com.backend.carrental.domain.FileDB;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class CarDTO {
 
     private Long id;
@@ -34,20 +35,29 @@ public class CarDTO {
 
     private String fuelType;
 
-    private Object imageId;
+    private Set<String> image;
 
-    public CarDTO(Long id, String model, Integer doors, Integer seats, Integer luggage, String transmission,
-                  Boolean airConditioning, Integer age, Double pricePerHour, String fuelType, Set<FileDB> imageId) {
-        this.id = id;
-        this.model = model;
-        this.doors = doors;
-        this.seats = seats;
-        this.luggage = luggage;
-        this.transmission = transmission;
-        this.airConditioning = airConditioning;
-        this.age = age;
-        this.pricePerHour = pricePerHour;
-        this.fuelType = fuelType;
-        this.imageId = imageId.stream().map(image -> getImageId());
+    public CarDTO(Car car) {
+        this.id = car.getId();
+        this.model = car.getModel();
+        this.doors = car.getDoors();
+        this.seats = car.getSeats();
+        this.luggage = car.getLuggage();
+        this.transmission = car.getTransmission();
+        this.airConditioning = car.getAirConditioning();
+        this.age = car.getAge();
+        this.pricePerHour = car.getPricePerHour();
+        this.fuelType = car.getFuelType();
+        this.image = getImageId(car.getImage());
+    }
+
+    public Set<String> getImageId(Set<FileDB> images) {
+        Set<String> img = new HashSet<>();
+        FileDB[] fileDB = images.toArray(new FileDB[images.size()]);
+
+        for (int i = 0; i < images.size(); i++) {
+            img.add(fileDB[i].getId());
+        }
+        return img;
     }
 }

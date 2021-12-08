@@ -2,6 +2,7 @@ package com.backend.carrental.service;
 
 import com.backend.carrental.domain.Car;
 import com.backend.carrental.domain.FileDB;
+import com.backend.carrental.dto.CarDTO;
 import com.backend.carrental.exception.BadRequestException;
 import com.backend.carrental.exception.ResourceNotFoundException;
 import com.backend.carrental.repository.CarRepository;
@@ -23,7 +24,7 @@ public class CarService {
 
     private final static String CAR_NOT_FOUND_MSG = "car with id %d not found";
 
-    public List<Car> fetchAllCars(){
+    public List<CarDTO> fetchAllCars(){
         return carRepository.findAllCar();
     }
 
