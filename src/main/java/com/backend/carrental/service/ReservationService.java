@@ -80,6 +80,7 @@ public class ReservationService {
         }
 
         boolean checkStatus = carAvailability(carId.getId(), reservation.getPickUpTime(), reservation.getDropOfTime());
+
         if (checkStatus)
             reservation.setStatus(true);
         else
