@@ -30,7 +30,8 @@ public class Car implements Serializable {
 
     private Integer luggage;
 
-    private Integer transmission;
+    @Column(length = 30)
+    private String transmission;
 
     private Boolean airConditioning;
 
@@ -46,7 +47,7 @@ public class Car implements Serializable {
 
     private String fuelType;
 
-    public Car(String model, Integer doors, Integer seats, Integer luggage, Integer transmission,
+    public Car(String model, Integer doors, Integer seats, Integer luggage, String transmission,
                Boolean airConditioning, Integer age, Set<FileDB> image, Double pricePerHour, String fuelType) {
         this.model = model;
         this.doors = doors;
