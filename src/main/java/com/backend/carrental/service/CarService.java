@@ -28,8 +28,8 @@ public class CarService {
         return carRepository.findAllCar();
     }
 
-    public Car findById(Long id) throws ResourceNotFoundException {
-        return carRepository.findCarById(id).orElseThrow(() ->
+    public CarDTO findById(Long id) throws ResourceNotFoundException {
+        return carRepository.findCarByIdx(id).orElseThrow(() ->
                     new ResourceNotFoundException(String.format(CAR_NOT_FOUND_MSG, id)));
     }
 

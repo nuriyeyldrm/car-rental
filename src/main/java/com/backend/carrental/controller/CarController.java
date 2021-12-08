@@ -32,8 +32,8 @@ public class CarController {
     }
 
     @GetMapping("/visitors/{id}")
-    public ResponseEntity<Car> getCarById(@PathVariable Long id){
-        Car car = carService.findById(id);
+    public ResponseEntity<CarDTO> getCarById(@PathVariable Long id){
+        CarDTO car = carService.findById(id);
         return new ResponseEntity<>(car, HttpStatus.OK);
     }
 
