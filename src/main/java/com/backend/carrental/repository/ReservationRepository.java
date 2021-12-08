@@ -1,6 +1,7 @@
 package com.backend.carrental.repository;
 
 import com.backend.carrental.domain.Reservation;
+import com.backend.carrental.dto.ReservationDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,37 +16,24 @@ import java.util.Optional;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     @Transactional
-    @Query("SELECT r FROM Reservation r " +
-            "LEFT JOIN fetch r.carId cd " +
-            "LEFT JOIN fetch cd.image img")
-    List<Reservation> findAllReservation();
+    @Query("SELECT new com.backend.carrental.dto.ReservationDTO(r) FROM Reservation r")
+    List<ReservationDTO> findAllReservation();
 
     @Transactional
-    @Query("SELECT r FROM Reservation r " +
-            "LEFT JOIN fetch r.carId cd " +
-            "LEFT JOIN fetch cd.image img " +
-            "LEFT JOIN fetch r.userId uid WHERE r.id = ?1 and uid.id = ?2")
-    List<Reservation> findUserReservationsById(Long id, Long userId);
+    @Query("SELECT new com.backend.carrental.dto.ReservationDTO(r) FROM Reservation r  WHERE r.id = ?1 and r.userId.id = ?2")
+    List<ReservationDTO> findUserReservationsById(Long id, Long userId);
 
     @Transactional
-    @Query("SELECT r FROM Reservation r " +
-            "LEFT JOIN fetch r.carId cd " +
-            "LEFT JOIN fetch cd.image img WHERE r.id = ?1")
-    Optional<Reservation> findReservationById(Long id);
+    @Query("SELECT new com.backend.carrental.dto.ReservationDTO(r) FROM Reservation r WHERE r.id = ?1")
+    Optional<ReservationDTO> findReservationById(Long id);
 
     @Transactional
-    @Query("SELECT r FROM Reservation r " +
-            "LEFT JOIN fetch r.carId cd " +
-            "LEFT JOIN fetch cd.image img " +
-            "LEFT JOIN fetch r.userId uid WHERE r.id = ?1 and uid.id = ?2")
-    Optional<Reservation> findReservationByUserId(Long id, Long userId);
+    @Query("SELECT new com.backend.carrental.dto.ReservationDTO(r) FROM Reservation r WHERE r.id = ?1 and r.userId.id = ?2")
+    Optional<ReservationDTO> findReservationByUserId(Long id, Long userId);
 
     @Transactional
-    @Query("SELECT r FROM Reservation r " +
-            "LEFT JOIN fetch r.carId cd " +
-            "LEFT JOIN fetch cd.image img " +
-            "LEFT JOIN fetch r.userId uid WHERE uid.id = ?1")
-    List<Reservation> findReservationsByUserId(Long userId);
+    @Query("SELECT new com.backend.carrental.dto.ReservationDTO(r) FROM Reservation r WHERE r.userId.id = ?1")
+    List<ReservationDTO> findReservationsByUserId(Long userId);
 
     @Transactional
     @Query("SELECT r FROM Reservation r " +

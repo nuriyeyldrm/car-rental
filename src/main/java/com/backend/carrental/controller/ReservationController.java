@@ -2,6 +2,7 @@ package com.backend.carrental.controller;
 
 import com.backend.carrental.domain.Car;
 import com.backend.carrental.domain.Reservation;
+import com.backend.carrental.dto.ReservationDTO;
 import com.backend.carrental.service.ReservationService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,40 +31,40 @@ public class ReservationController {
 
     @GetMapping("/admin/auth/all")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<Reservation>> getAllUserReservations(@RequestParam (value = "id") Long id,
+    public ResponseEntity<List<ReservationDTO>> getAllUserReservations(@RequestParam (value = "id") Long id,
                                                                     @RequestParam (value = "userId") Long userId){
-        List<Reservation> reservations = reservationService.fetchUserReservationsById(id, userId);
+        List<ReservationDTO> reservations = reservationService.fetchUserReservationsById(id, userId);
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
 
     @GetMapping("/admin/all")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<Reservation>> getAllReservations(){
-        List<Reservation> reservations = reservationService.fetchAllReservations();
+    public ResponseEntity<List<ReservationDTO>> getAllReservations(){
+        List<ReservationDTO> reservations = reservationService.fetchAllReservations();
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
 
     @GetMapping("/{id}/admin")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Reservation> getReservationById(@PathVariable Long id){
-        Reservation reservation = reservationService.findById(id);
+    public ResponseEntity<ReservationDTO> getReservationById(@PathVariable Long id){
+        ReservationDTO reservation = reservationService.findById(id);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
     @GetMapping("/{id}/auth")
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
-    public ResponseEntity<Reservation> getUserReservationById(@PathVariable Long id,
+    public ResponseEntity<ReservationDTO> getUserReservationById(@PathVariable Long id,
                                                               HttpServletRequest request){
         Long userId = (Long) request.getAttribute("id");
-        Reservation reservation = reservationService.findByUserId(id, userId);
+        ReservationDTO reservation = reservationService.findByUserId(id, userId);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
     @GetMapping("/auth/all")
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
-    public ResponseEntity<List<Reservation>> getUserReservationsById(HttpServletRequest request){
+    public ResponseEntity<List<ReservationDTO>> getUserReservationsById(HttpServletRequest request){
         Long userId = (Long) request.getAttribute("id");
-        List<Reservation> reservation = reservationService.findAllByUserId(userId);
+        List<ReservationDTO> reservation = reservationService.findAllByUserId(userId);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 

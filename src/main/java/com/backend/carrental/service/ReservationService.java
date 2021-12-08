@@ -3,6 +3,7 @@ package com.backend.carrental.service;
 import com.backend.carrental.domain.Car;
 import com.backend.carrental.domain.Reservation;
 import com.backend.carrental.domain.User;
+import com.backend.carrental.dto.ReservationDTO;
 import com.backend.carrental.exception.BadRequestException;
 import com.backend.carrental.exception.ConflictException;
 import com.backend.carrental.exception.ResourceNotFoundException;
@@ -30,25 +31,25 @@ public class ReservationService {
 
     private final static String RESERVATION_NOT_FOUND_MSG = "reservation with id %d not found";
 
-    public List<Reservation> fetchUserReservationsById(Long id, Long userId){
+    public List<ReservationDTO> fetchUserReservationsById(Long id, Long userId){
         return reservationRepository.findUserReservationsById(id, userId);
     }
 
-    public List<Reservation> fetchAllReservations(){
+    public List<ReservationDTO> fetchAllReservations(){
         return reservationRepository.findAllReservation();
     }
 
-    public Reservation findById(Long id) throws ResourceNotFoundException {
+    public ReservationDTO findById(Long id) throws ResourceNotFoundException {
         return reservationRepository.findReservationById(id).orElseThrow(() ->
                 new ResourceNotFoundException(String.format(RESERVATION_NOT_FOUND_MSG, id)));
     }
 
-    public Reservation findByUserId(Long id, Long userId) throws ResourceNotFoundException {
+    public ReservationDTO findByUserId(Long id, Long userId) throws ResourceNotFoundException {
         return reservationRepository.findReservationByUserId(id, userId).orElseThrow(() ->
                 new ResourceNotFoundException(String.format(RESERVATION_NOT_FOUND_MSG, id)));
     }
 
-    public List<Reservation> findAllByUserId(Long id) throws ResourceNotFoundException {
+    public List<ReservationDTO> findAllByUserId(Long id) throws ResourceNotFoundException {
         return reservationRepository.findReservationsByUserId(id);
     }
 
