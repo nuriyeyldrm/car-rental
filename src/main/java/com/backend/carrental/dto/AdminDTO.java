@@ -48,4 +48,6 @@ public class AdminDTO {
     private String zipCode;
 
     private Set<String> roles;
+
+    private Boolean builtIn;
 }

@@ -71,6 +71,8 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    private Boolean builtIn;
+
     public User(String firstName, String lastName, String password, String phoneNumber, String email,
                 String address, String zipCode) {
         this.firstName = firstName;
@@ -83,7 +85,7 @@ public class User implements Serializable {
     }
 
     public User(String firstName, String lastName, String password, String phoneNumber, String email,
-                String address, String zipCode, Set<Role> roles) {
+                String address, String zipCode, Set<Role> roles, Boolean builtIn) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
@@ -92,6 +94,7 @@ public class User implements Serializable {
         this.address = address;
         this.zipCode = zipCode;
         this.roles = roles;
+        this.builtIn = builtIn;
     }
 
     public String getFullName() {

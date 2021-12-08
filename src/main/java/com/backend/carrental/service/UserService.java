@@ -60,6 +60,7 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
 
         user.setPassword(encodedPassword);
+        user.setBuiltIn(false);
 
         Set<Role> roles = new HashSet<>();
         Role customerRole = roleRepository.findByName(UserRole.ROLE_CUSTOMER)
@@ -96,7 +97,8 @@ public class UserService {
         Set<Role> roles = addRoles(userRoles);
 
         User user = new User(adminDTO.getFirstName(), adminDTO.getLastName(), adminDTO.getPassword(),
-                adminDTO.getPhoneNumber(), adminDTO.getEmail(), adminDTO.getAddress(), adminDTO.getZipCode(), roles);
+                adminDTO.getPhoneNumber(), adminDTO.getEmail(), adminDTO.getAddress(), adminDTO.getZipCode(),
+                roles, adminDTO.getBuiltIn());
 
         userRepository.save(user);
     }
@@ -105,6 +107,10 @@ public class UserService {
 
         boolean emailExists = userRepository.existsByEmail(userDao.getEmail());
         Optional<User> userDetails = userRepository.findById(id);
+
+        if (userDetails.get().getBuiltIn()){
+            throw new ResourceNotFoundException("You dont have permission to update user info!");
+        }
 
         if (emailExists && !userDao.getEmail().equals(userDetails.get().getEmail())){
             throw new ConflictException("Error: Email is already in use!");
@@ -118,6 +124,10 @@ public class UserService {
 
         boolean emailExists = userRepository.existsByEmail(adminDTO.getEmail());
         Optional<User> userDetails = userRepository.findById(id);
+
+        if (userDetails.get().getBuiltIn()){
+            throw new ResourceNotFoundException("You dont have permission to update user info!");
+        }
 
         if (emailExists && !adminDTO.getEmail().equals(userDetails.get().getEmail())){
             throw new ConflictException("Error: Email is already in use!");
@@ -136,13 +146,19 @@ public class UserService {
         Set<Role> roles = addRoles(userRoles);
 
         User user = new User(id, adminDTO.getFirstName(), adminDTO.getLastName(), adminDTO.getPassword(),
-                adminDTO.getPhoneNumber(), adminDTO.getEmail(), adminDTO.getAddress(), adminDTO.getZipCode(), roles);
+                adminDTO.getPhoneNumber(), adminDTO.getEmail(), adminDTO.getAddress(), adminDTO.getZipCode(),
+                roles, adminDTO.getBuiltIn());
 
         userRepository.save(user);
     }
 
     public void updatePassword(Long id, String newPassword, String oldPassword) throws BadRequestException {
         Optional<User> user = userRepository.findById(id);
+
+        if (user.get().getBuiltIn()){
+            throw new ResourceNotFoundException("You dont have permission to update password!");
+        }
+
         if (!(BCrypt.hashpw(oldPassword, user.get().getPassword()).equals(user.get().getPassword())))
             throw new BadRequestException("password does not match");
 
@@ -152,10 +168,11 @@ public class UserService {
     }
 
     public void removeById(Long id) throws ResourceNotFoundException {
-        boolean userExists = userRepository.existsById(id);
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException(String.format(USER_NOT_FOUND_MSG, id)));
 
-        if (!userExists){
-            throw new ResourceNotFoundException("user does not exist");
+        if (user.getBuiltIn()){
+            throw new ResourceNotFoundException("You dont have permission to delete user!");
         }
 
         userRepository.deleteById(id);
