@@ -102,7 +102,7 @@ public class ReservationController {
 
     @GetMapping("/auth")
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
-    public ResponseEntity<Map<String, Boolean>> checkCarAvailability(
+    public ResponseEntity<Map<String, Object>> checkCarAvailability(
                                                 @RequestParam (value = "carId") Long carId,
                                                 @RequestParam (value = "pickUpDateTime")
                                                         @DateTimeFormat(pattern = "MM/dd/yyyy HH:mm:ss")
@@ -112,9 +112,11 @@ public class ReservationController {
                                                                 LocalDateTime dropOffTime ){
 
         boolean availability = reservationService.carAvailability(carId, pickUpTime, dropOffTime);
+        Double totalPrice = reservationService.totalPrice(pickUpTime, dropOffTime, carId);
         String availableDateTime = "" + pickUpTime + " " + dropOffTime;
-        Map<String, Boolean> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put(availableDateTime, !availability);
+        map.put("totalPrice", totalPrice);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }

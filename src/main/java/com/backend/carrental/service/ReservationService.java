@@ -64,8 +64,7 @@ public class ReservationService {
         Optional<User> user = userRepository.findById(id);
         reservation.setUserId(user.get());
 
-        long hours = reservation.getTotalHours();
-        Double totalPrice = car.get().getPricePerHour() * hours;
+        Double totalPrice = totalPrice(reservation.getPickUpTime(), reservation.getDropOfTime(), carId.getId());
         reservation.setTotalPrice(totalPrice);
 
         reservationRepository.save(reservation);
@@ -87,8 +86,7 @@ public class ReservationService {
         else
             throw new BadRequestException("Car is already reserved! Please choose another");
 
-        long hours = reservation.getTotalHours();
-        Double totalPrice = car.get().getPricePerHour() * hours;
+        Double totalPrice = totalPrice(reservation.getPickUpTime(), reservation.getDropOfTime(), carId.getId());
         reservationExist.get().setTotalPrice(totalPrice);
 
         reservationExist.get().setCarId(carId);
@@ -113,5 +111,11 @@ public class ReservationService {
     public boolean carAvailability(Long carId, LocalDateTime pickUpTime, LocalDateTime dropOffTime) {
         Optional<Reservation> checkStatus = reservationRepository.checkStatus(carId, pickUpTime, dropOffTime);
         return checkStatus.isPresent();
+    }
+
+    public Double totalPrice(LocalDateTime pickUpTime, LocalDateTime dropOfTime, Long carId) {
+        Optional<Car> car = carRepository.findCarById(carId);
+        long hours = (new Reservation()).getTotalHours(pickUpTime, dropOfTime);
+        return car.get().getPricePerHour() * hours;
     }
 }
