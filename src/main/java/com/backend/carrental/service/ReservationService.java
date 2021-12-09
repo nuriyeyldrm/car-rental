@@ -13,8 +13,6 @@ import com.backend.carrental.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -61,6 +59,7 @@ public class ReservationService {
             reservation.setStatus(true);
         else
             throw new BadRequestException("Car is already reserved! Please choose another");
+
         reservation.setCarId(carId);
         Optional<User> user = userRepository.findById(id);
         reservation.setUserId(user.get());
@@ -74,22 +73,31 @@ public class ReservationService {
 
     public void updateReservation(Car carId, Long id, Reservation reservation) throws BadRequestException {
 
-        boolean reservationExist = reservationRepository.findById(id).isPresent();
+        Optional<Reservation> reservationExist = reservationRepository.findById(id);
+        Optional<Car> car = carRepository.findCarById(carId.getId());
 
-        if (!reservationExist){
+        if (!(reservationExist.isPresent())){
             throw new ConflictException("Error: Reservation does not exist!");
         }
 
         boolean checkStatus = carAvailability(carId.getId(), reservation.getPickUpTime(), reservation.getDropOfTime());
 
-        if (checkStatus)
+        if (!checkStatus)
             reservation.setStatus(true);
         else
             throw new BadRequestException("Car is already reserved! Please choose another");
 
-        reservation.setId(id);
-        reservation.setCarId(carId);
-        reservationRepository.save(reservation);
+        long hours = reservation.getTotalHours();
+        Double totalPrice = car.get().getPricePerHour() * hours;
+        reservationExist.get().setTotalPrice(totalPrice);
+
+        reservationExist.get().setCarId(carId);
+        reservationExist.get().setPickUpTime(reservation.getPickUpTime());
+        reservationExist.get().setDropOfTime(reservation.getDropOfTime());
+        reservationExist.get().setPickUpLocation(reservation.getPickUpLocation());
+        reservationExist.get().setDropOfLocation(reservation.getDropOfLocation());
+
+        reservationRepository.save(reservationExist.get());
     }
 
     public void removeById(Long id) throws ResourceNotFoundException {
