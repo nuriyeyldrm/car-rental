@@ -125,7 +125,7 @@ public class ExcelHelper {
                 row.createCell(7).setCellValue(reservation.getDropOfTime().toString());
                 row.createCell(8).setCellValue(reservation.getPickUpLocation());
                 row.createCell(9).setCellValue(reservation.getDropOfLocation());
-                row.createCell(10).setCellValue(reservation.getStatus());
+                row.createCell(10).setCellValue(reservation.getStatus().toString());
             }
 
             workbook.write(out);

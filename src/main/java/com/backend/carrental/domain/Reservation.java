@@ -1,5 +1,6 @@
 package com.backend.carrental.domain;
 
+import com.backend.carrental.domain.enumeration.ReservationStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,16 +43,20 @@ public class Reservation implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
     private LocalDateTime dropOfTime;
 
+    @Column(length = 50)
     private String pickUpLocation;
 
+    @Column(length = 50)
     private String dropOfLocation;
 
-    private Boolean status;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 30)
+    private ReservationStatus status;
 
     private Double totalPrice;
 
     public Reservation(LocalDateTime pickUpTime, LocalDateTime dropOfTime, String pickUpLocation, String dropOfLocation,
-                       Boolean status) {
+                       ReservationStatus status) {
         this.pickUpTime = pickUpTime;
         this.dropOfTime = dropOfTime;
         this.pickUpLocation = pickUpLocation;

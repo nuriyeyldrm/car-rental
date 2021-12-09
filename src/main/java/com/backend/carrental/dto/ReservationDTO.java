@@ -1,8 +1,7 @@
 package com.backend.carrental.dto;
 
-import com.backend.carrental.domain.Car;
 import com.backend.carrental.domain.Reservation;
-import com.backend.carrental.domain.User;
+import com.backend.carrental.domain.enumeration.ReservationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +29,7 @@ public class ReservationDTO {
 
     private String dropOfLocation;
 
-    private Boolean status;
+    private ReservationStatus status;
 
     private Double totalPrice;
 

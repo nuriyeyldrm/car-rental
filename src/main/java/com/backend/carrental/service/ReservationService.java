@@ -3,6 +3,7 @@ package com.backend.carrental.service;
 import com.backend.carrental.domain.Car;
 import com.backend.carrental.domain.Reservation;
 import com.backend.carrental.domain.User;
+import com.backend.carrental.domain.enumeration.ReservationStatus;
 import com.backend.carrental.dto.ReservationDTO;
 import com.backend.carrental.exception.BadRequestException;
 import com.backend.carrental.exception.ConflictException;
@@ -56,7 +57,7 @@ public class ReservationService {
         Optional<Car> car = carRepository.findCarById(carId.getId());
 
         if (!checkStatus)
-            reservation.setStatus(true);
+            reservation.setStatus(ReservationStatus.CREATED);
         else
             throw new BadRequestException("Car is already reserved! Please choose another");
 
@@ -82,7 +83,7 @@ public class ReservationService {
         boolean checkStatus = carAvailability(carId.getId(), reservation.getPickUpTime(), reservation.getDropOfTime());
 
         if (!checkStatus)
-            reservation.setStatus(true);
+            reservation.setStatus(ReservationStatus.UPDATED);
         else
             throw new BadRequestException("Car is already reserved! Please choose another");
 
