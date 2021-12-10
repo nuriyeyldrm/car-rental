@@ -10,6 +10,7 @@ import com.backend.carrental.exception.BadRequestException;
 import com.backend.carrental.exception.ConflictException;
 import com.backend.carrental.exception.ResourceNotFoundException;
 import com.backend.carrental.projection.ProjectUser;
+import com.backend.carrental.repository.ReservationRepository;
 import com.backend.carrental.repository.RoleRepository;
 import com.backend.carrental.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,8 @@ public class UserService {
 
     private final RoleRepository roleRepository;
 
+    private final ReservationRepository reservationRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     private final static String USER_NOT_FOUND_MSG = "user with id %d not found";
@@ -42,11 +45,11 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format(USER_NOT_FOUND_MSG, id)));
 
-        UserDTO userDao = new UserDTO();
-        userDao.setRoles(user.getRole());
+        UserDTO userDTO = new UserDTO();
+        userDTO.setRoles(user.getRole());
 
         return new UserDTO(user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getEmail(),
-                user.getAddress(), user.getZipCode(), userDao.getRoles());
+                user.getAddress(), user.getZipCode(), userDTO.getRoles(), user.getBuiltIn());
     }
 
     public void register(User user) throws BadRequestException {
@@ -171,6 +174,10 @@ public class UserService {
     public void removeById(Long id) throws ResourceNotFoundException {
         User user = userRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException(String.format(USER_NOT_FOUND_MSG, id)));
+        boolean reservation = reservationRepository.existsByUserId(user);
+
+        if (reservation)
+            throw new ResourceNotFoundException("Reservation(s) exist for user!");
 
         if (user.getBuiltIn()){
             throw new ResourceNotFoundException("You dont have permission to delete user!");

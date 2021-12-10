@@ -1,6 +1,8 @@
 package com.backend.carrental.repository;
 
 import com.backend.carrental.domain.Reservation;
+import com.backend.carrental.domain.User;
+import com.backend.carrental.domain.enumeration.ReservationStatus;
 import com.backend.carrental.dto.ReservationDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +16,8 @@ import java.util.Optional;
 @Repository
 @Transactional(readOnly = true)
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+
+    boolean existsByUserId(User user);
 
     @Transactional
     @Query("SELECT new com.backend.carrental.dto.ReservationDTO(r) FROM Reservation r")
@@ -39,7 +43,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("SELECT r FROM Reservation r " +
             "LEFT JOIN fetch r.carId cd " +
             "LEFT JOIN fetch cd.image img " +
-            "LEFT JOIN fetch r.userId uid WHERE (cd.id = ?1 and ?2 BETWEEN r.pickUpTime and r.dropOfTime) " +
-            "or (cd.id = ?1 and ?3 BETWEEN r.pickUpTime and r.dropOfTime)")
-    Optional<Reservation> checkStatus(Long carId, LocalDateTime pickUpTime, LocalDateTime dropOffTime);
+            "LEFT JOIN fetch r.userId uid WHERE (cd.id = ?1 and r.status <> ?4 and r.status <> ?5 and " +
+            "?2 BETWEEN r.pickUpTime and r.dropOfTime) or " +
+            "(cd.id = ?1 and r.status <> ?4 and r.status <> ?5 and ?3 BETWEEN r.pickUpTime and r.dropOfTime)")
+            List<Reservation> checkStatus(Long carId, LocalDateTime pickUpTime, LocalDateTime dropOffTime,
+                                              ReservationStatus done, ReservationStatus canceled);
 }

@@ -108,8 +108,9 @@ public class ReservationService {
     }
 
     public boolean carAvailability(Long carId, LocalDateTime pickUpTime, LocalDateTime dropOffTime) {
-        Optional<Reservation> checkStatus = reservationRepository.checkStatus(carId, pickUpTime, dropOffTime);
-        return checkStatus.isPresent();
+        List<Reservation> checkStatus = reservationRepository.checkStatus(carId, pickUpTime, dropOffTime,
+                ReservationStatus.DONE, ReservationStatus.CANCELED);
+        return checkStatus.size() > 0;
     }
 
     public Double totalPrice(LocalDateTime pickUpTime, LocalDateTime dropOfTime, Long carId) {
