@@ -30,6 +30,8 @@ public class ReservationService {
 
     private final static String RESERVATION_NOT_FOUND_MSG = "reservation with id %d not found";
 
+    private final static String USER_NOT_FOUND_MSG = "user with id %d not found";
+
     public List<ReservationDTO> fetchUserReservationsById(Long id, Long userId){
         return reservationRepository.findUserReservationsById(id, userId);
     }
@@ -54,6 +56,8 @@ public class ReservationService {
 
     public void addReservation(Reservation reservation, Long id, Car carId) throws BadRequestException {
         boolean checkStatus = carAvailability(carId.getId(), reservation.getPickUpTime(), reservation.getDropOfTime());
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(USER_NOT_FOUND_MSG, id)));
 
         if (!checkStatus)
             reservation.setStatus(ReservationStatus.CREATED);
@@ -61,8 +65,7 @@ public class ReservationService {
             throw new BadRequestException("Car is already reserved! Please choose another");
 
         reservation.setCarId(carId);
-        Optional<User> user = userRepository.findById(id);
-        reservation.setUserId(user.get());
+        reservation.setUserId(user);
 
         Double totalPrice = totalPrice(reservation.getPickUpTime(), reservation.getDropOfTime(), carId.getId());
         reservation.setTotalPrice(totalPrice);
