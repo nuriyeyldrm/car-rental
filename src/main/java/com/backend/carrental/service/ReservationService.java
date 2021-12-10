@@ -92,7 +92,7 @@ public class ReservationService {
         reservationExist.get().setDropOfTime(reservation.getDropOfTime());
         reservationExist.get().setPickUpLocation(reservation.getPickUpLocation());
         reservationExist.get().setDropOfLocation(reservation.getDropOfLocation());
-        reservationExist.get().setStatus(ReservationStatus.UPDATED);
+        reservationExist.get().setStatus(reservation.getStatus());
 
         reservationRepository.save(reservationExist.get());
     }
@@ -114,7 +114,7 @@ public class ReservationService {
 
     public Double totalPrice(LocalDateTime pickUpTime, LocalDateTime dropOfTime, Long carId) {
         Optional<Car> car = carRepository.findCarById(carId);
-        long hours = (new Reservation()).getTotalHours(pickUpTime, dropOfTime);
+        Long hours = (new Reservation()).getTotalHours(pickUpTime, dropOfTime);
         return car.get().getPricePerHour() * hours;
     }
 }
