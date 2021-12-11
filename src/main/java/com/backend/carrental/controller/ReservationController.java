@@ -125,9 +125,8 @@ public class ReservationController {
 
         boolean availability = reservationService.carAvailability(carId, pickUpTime, dropOffTime);
         Double totalPrice = reservationService.totalPrice(pickUpTime, dropOffTime, carId);
-        String availableDateTime = "" + pickUpTime + " " + dropOffTime;
         Map<String, Object> map = new HashMap<>();
-        map.put(availableDateTime, !availability);
+        map.put("isAvailable", !availability);
         map.put("totalPrice", totalPrice);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
