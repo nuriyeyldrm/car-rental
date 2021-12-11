@@ -27,13 +27,11 @@ public class Reservation implements Serializable {
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "car_id", referencedColumnName = "id")
     @NotNull(message = "Please enter the car id")
-    @Column(nullable = false)
     private Car carId;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @NotNull(message = "Please enter the user id")
-    @Column(nullable = false)
     private User userId;
 
 //    @Temporal(TemporalType.TIMESTAMP)

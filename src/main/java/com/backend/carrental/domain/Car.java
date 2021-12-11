@@ -23,7 +23,7 @@ public class Car implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(max = 30)
+    @Size(max = 30, message = "Size is exceeded")
     @NotNull(message = "Please enter the car model")
     @Column(length = 30, nullable = false)
     private String model;
@@ -40,6 +40,7 @@ public class Car implements Serializable {
     @Column(nullable = false)
     private Integer luggage;
 
+    @Size(max = 30, message = "Size is exceeded")
     @NotNull(message = "Please enter the car transmission")
     @Column(length = 30, nullable = false)
     private String transmission;
@@ -62,8 +63,9 @@ public class Car implements Serializable {
     @Column(nullable = false)
     private Double pricePerHour;
 
+    @Size(max = 30, message = "Size is exceeded")
     @NotNull(message = "Please enter the car fuel type")
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String fuelType;
 
     public Car(String model, Integer doors, Integer seats, Integer luggage, String transmission,
