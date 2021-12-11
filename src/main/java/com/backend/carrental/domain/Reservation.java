@@ -26,12 +26,10 @@ public class Reservation implements Serializable {
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "car_id", referencedColumnName = "id")
-    @NotNull(message = "Please enter the car id")
     private Car carId;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @NotNull(message = "Please enter the user id")
     private User userId;
 
 //    @Temporal(TemporalType.TIMESTAMP)
@@ -58,7 +56,6 @@ public class Reservation implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 30, nullable = false)
-    @NotNull(message = "Please enter the reservation status")
     private ReservationStatus status;
 
     @Column(nullable = false)

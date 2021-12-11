@@ -71,7 +71,6 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @NotNull(message = "Please enter built in")
     @Column(nullable = false)
     private Boolean builtIn;
 
