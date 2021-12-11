@@ -8,6 +8,7 @@ import lombok.Setter;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -25,32 +26,44 @@ public class Reservation implements Serializable {
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "car_id", referencedColumnName = "id")
+    @NotNull(message = "Please enter the car id")
+    @Column(nullable = false)
     private Car carId;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @NotNull(message = "Please enter the user id")
+    @Column(nullable = false)
     private User userId;
 
 //    @Temporal(TemporalType.TIMESTAMP)
 //    @FutureOrPresent(message = "Please enter valid date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
+    @NotNull(message = "Please enter the pick up time of the reservation")
+    @Column(nullable = false)
     private LocalDateTime pickUpTime;
 
 //    @Temporal(TemporalType.TIMESTAMP)
 //    @FutureOrPresent(message = "Please enter valid date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
+    @NotNull(message = "Please enter the drop up time of the reservation")
+    @Column(nullable = false)
     private LocalDateTime dropOfTime;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
+    @NotNull(message = "Please enter the pick up location of the reservation")
     private String pickUpLocation;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
+    @NotNull(message = "Please enter the drop of location of the reservation")
     private String dropOfLocation;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 30)
+    @Column(length = 30, nullable = false)
+    @NotNull(message = "Please enter the reservation status")
     private ReservationStatus status;
 
+    @Column(nullable = false)
     private Double totalPrice;
 
     public Reservation(LocalDateTime pickUpTime, LocalDateTime dropOfTime, String pickUpLocation, String dropOfLocation,
