@@ -27,6 +27,8 @@ public class CarService {
 
     private final static String CAR_NOT_FOUND_MSG = "car with id %d not found";
 
+    private final static String IMAGE_NOT_FOUND_MSG = "car with id %s not found";
+
     public List<CarDTO> fetchAllCars(){
         return carRepository.findAllCar();
     }
@@ -37,7 +39,8 @@ public class CarService {
     }
 
     public void add(Car car, String imageId) throws BadRequestException {
-        FileDB fileDB = fileDBRepository.findById(imageId).get();
+        FileDB fileDB = fileDBRepository.findById(imageId).orElseThrow(() ->
+                new ResourceNotFoundException(String.format(IMAGE_NOT_FOUND_MSG, imageId)));
 
         Set<FileDB> fileDBs = new HashSet<>();
         fileDBs.add(fileDB);
