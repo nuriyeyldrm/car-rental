@@ -75,16 +75,18 @@ public class ReservationService {
 
     public void updateReservation(Car carId, Long id, Reservation reservation) throws BadRequestException {
 
+        boolean checkStatus = carAvailability(carId.getId(), reservation.getPickUpTime(), reservation.getDropOfTime());
+
         Optional<Reservation> reservationExist = reservationRepository.findById(id);
 
         if (!(reservationExist.isPresent())){
             throw new ConflictException("Error: Reservation does not exist!");
         }
 
-        boolean checkStatus = carAvailability(carId.getId(), reservation.getPickUpTime(), reservation.getDropOfTime());
-
-        if (reservation.getPickUpTime().compareTo(reservationExist.get().getPickUpTime()) != 0 ||
-                reservation.getDropOfTime().compareTo(reservationExist.get().getDropOfTime()) != 0 && !checkStatus)
+        if (reservation.getPickUpTime().compareTo(reservationExist.get().getPickUpTime()) == 0 &&
+                reservation.getDropOfTime().compareTo(reservationExist.get().getDropOfTime()) == 0)
+            System.out.println();
+        else if (checkStatus)
             throw new BadRequestException("Car is already reserved! Please choose another");
 
         Double totalPrice = totalPrice(reservation.getPickUpTime(), reservation.getDropOfTime(), carId.getId());

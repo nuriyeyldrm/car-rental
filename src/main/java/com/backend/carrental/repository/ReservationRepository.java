@@ -43,8 +43,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("SELECT r FROM Reservation r " +
             "LEFT JOIN fetch r.carId cd " +
             "LEFT JOIN fetch cd.image img " +
-            "LEFT JOIN fetch r.userId uid WHERE (cd.id = ?1 and r.status <> ?4 and r.status <> ?5 and " +
-            "?2 BETWEEN r.pickUpTime and r.dropOfTime) or " +
+            "LEFT JOIN fetch r.userId uid WHERE " +
+            "(cd.id = ?1 and r.status <> ?4 and r.status <> ?5 and ?2 BETWEEN r.pickUpTime and r.dropOfTime) or " +
             "(cd.id = ?1 and r.status <> ?4 and r.status <> ?5 and ?3 BETWEEN r.pickUpTime and r.dropOfTime)")
             List<Reservation> checkStatus(Long carId, LocalDateTime pickUpTime, LocalDateTime dropOffTime,
                                               ReservationStatus done, ReservationStatus canceled);

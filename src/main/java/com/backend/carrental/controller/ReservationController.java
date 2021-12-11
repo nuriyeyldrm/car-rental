@@ -2,6 +2,7 @@ package com.backend.carrental.controller;
 
 import com.backend.carrental.domain.Car;
 import com.backend.carrental.domain.Reservation;
+import com.backend.carrental.domain.User;
 import com.backend.carrental.dto.ReservationDTO;
 import com.backend.carrental.service.ReservationService;
 import lombok.AllArgsConstructor;
@@ -82,7 +83,7 @@ public class ReservationController {
 
     @PostMapping("/add/auth")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Map<String, Boolean>> addReservation(@RequestParam (value = "carId") Long userId,
+    public ResponseEntity<Map<String, Boolean>> addReservation(@RequestParam (value = "userId") Long userId,
                                                                 @RequestParam (value = "carId") Car carId,
                                                                 @Valid @RequestBody Reservation reservation) {
         reservationService.addReservation(reservation, userId, carId);
