@@ -28,6 +28,4 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     @Query("SELECT c FROM Car c " +
             "LEFT JOIN fetch c.image img WHERE c.id = ?1")
     Optional<Car> findCarById(Long id) throws ResourceNotFoundException;
-
-    Boolean existsByModel(String model) throws ConflictException;
 }

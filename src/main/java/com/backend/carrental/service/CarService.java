@@ -7,6 +7,7 @@ import com.backend.carrental.exception.BadRequestException;
 import com.backend.carrental.exception.ResourceNotFoundException;
 import com.backend.carrental.repository.CarRepository;
 import com.backend.carrental.repository.FileDBRepository;
+import com.backend.carrental.repository.ReservationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,8 @@ import java.util.Set;
 public class CarService {
 
     private final CarRepository carRepository;
+
+    private final ReservationRepository reservationRepository;
 
     private final FileDBRepository fileDBRepository;
 
@@ -63,10 +66,13 @@ public class CarService {
     }
 
     public void removeById(Long id) throws ResourceNotFoundException {
-        boolean carExists = carRepository.existsById(id);
+        Car car = carRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException(String.format(CAR_NOT_FOUND_MSG, id)));
 
-        if (!carExists){
-            throw new ResourceNotFoundException("car does not exist");
+        boolean reservationExist = reservationRepository.existsByCarId(car);
+
+        if (reservationExist){
+            throw new ResourceNotFoundException("Reservation(s) exist for car!");
         }
 
         carRepository.deleteById(id);

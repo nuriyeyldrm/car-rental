@@ -1,5 +1,6 @@
 package com.backend.carrental.repository;
 
+import com.backend.carrental.domain.Car;
 import com.backend.carrental.domain.Reservation;
 import com.backend.carrental.domain.User;
 import com.backend.carrental.domain.enumeration.ReservationStatus;
@@ -18,6 +19,8 @@ import java.util.Optional;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     boolean existsByUserId(User user);
+
+    boolean existsByCarId(Car car);
 
     @Transactional
     @Query("SELECT new com.backend.carrental.dto.ReservationDTO(r) FROM Reservation r")
