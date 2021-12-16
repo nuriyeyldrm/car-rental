@@ -2,12 +2,10 @@ package com.backend.carrental.dto;
 
 import com.backend.carrental.domain.Car;
 import com.backend.carrental.domain.FileDB;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import java.util.HashSet;
 import java.util.Set;
 
