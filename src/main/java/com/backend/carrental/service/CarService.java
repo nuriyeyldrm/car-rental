@@ -46,13 +46,20 @@ public class CarService {
         fileDBs.add(fileDB);
 
         car.setImage(fileDBs);
+        car.setBuiltIn(false);
         carRepository.save(car);
     }
 
     public void updateCar(Long id, Car car, String imageId) throws BadRequestException {
-
         car.setId(id);
         FileDB fileDB = fileDBRepository.findById(imageId).get();
+
+        Car car1 = carRepository.getById(id);
+
+        if (car1.getBuiltIn())
+            throw new BadRequestException("You dont have permission to update car!");
+
+        car.setBuiltIn(false);
 
         Set<FileDB> fileDBs = new HashSet<>();
         fileDBs.add(fileDB);
@@ -71,6 +78,9 @@ public class CarService {
     public void removeById(Long id) throws ResourceNotFoundException {
         Car car = carRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException(String.format(CAR_NOT_FOUND_MSG, id)));
+
+        if (car.getBuiltIn())
+            throw new BadRequestException("You dont have permission to delete car!");
 
         boolean reservationExist = reservationRepository.existsByCarId(car);
 

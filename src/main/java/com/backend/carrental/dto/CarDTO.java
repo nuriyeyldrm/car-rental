@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,6 +38,8 @@ public class CarDTO {
 
     private Set<String> image;
 
+    private Boolean builtIn;
+
     public CarDTO(Car car) {
         this.id = car.getId();
         this.model = car.getModel();
@@ -49,6 +52,7 @@ public class CarDTO {
         this.pricePerHour = car.getPricePerHour();
         this.fuelType = car.getFuelType();
         this.image = getImageId(car.getImage());
+        this.builtIn = car.getBuiltIn();
     }
 
     public Set<String> getImageId(Set<FileDB> images) {

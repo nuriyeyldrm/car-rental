@@ -68,6 +68,8 @@ public class Car implements Serializable {
     @Column(nullable = false, length = 30)
     private String fuelType;
 
+    private Boolean builtIn;
+
     public Car(String model, Integer doors, Integer seats, Integer luggage, String transmission,
                Boolean airConditioning, Integer age, Set<FileDB> image, Double pricePerHour, String fuelType) {
         this.model = model;
