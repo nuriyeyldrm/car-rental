@@ -61,15 +61,6 @@ public class Reservation implements Serializable {
     @Column(nullable = false)
     private Double totalPrice;
 
-    public Reservation(LocalDateTime pickUpTime, LocalDateTime dropOfTime, String pickUpLocation, String dropOfLocation,
-                       ReservationStatus status) {
-        this.pickUpTime = pickUpTime;
-        this.dropOfTime = dropOfTime;
-        this.pickUpLocation = pickUpLocation;
-        this.dropOfLocation = dropOfLocation;
-        this.status = status;
-    }
-
     public Long getTotalHours(LocalDateTime pickUpTime, LocalDateTime dropOfTime) {
 
         Long seconds = ChronoUnit.SECONDS.between(pickUpTime, dropOfTime);

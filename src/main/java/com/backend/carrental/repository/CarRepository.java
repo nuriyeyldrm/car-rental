@@ -2,7 +2,6 @@ package com.backend.carrental.repository;
 
 import com.backend.carrental.domain.Car;
 import com.backend.carrental.dto.CarDTO;
-import com.backend.carrental.exception.ConflictException;
 import com.backend.carrental.exception.ResourceNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
