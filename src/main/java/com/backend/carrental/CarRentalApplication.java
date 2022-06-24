@@ -15,21 +15,21 @@ public class CarRentalApplication {
         SpringApplication.run(CarRentalApplication.class, args);
     }
 
-    @Bean
-    public FilterRegistrationBean<CorsFilter> corsFilter() {
-        FilterRegistrationBean<CorsFilter> registrationBean = new FilterRegistrationBean<>();
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedMethod("GET");
-        config.addAllowedMethod("POST");
-        config.addAllowedMethod("PUT");
-        config.addAllowedMethod("DELETE");
-        config.addAllowedMethod("PATCH");
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        source.registerCorsConfiguration("/**", config);
-        registrationBean.setFilter(new CorsFilter(source));
-        registrationBean.setOrder(0);
-        return registrationBean;
-    }
+//    @Bean
+//    public FilterRegistrationBean<CorsFilter> corsFilter() {
+//        FilterRegistrationBean<CorsFilter> registrationBean = new FilterRegistrationBean<>();
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.addAllowedMethod("GET");
+//        config.addAllowedMethod("POST");
+//        config.addAllowedMethod("PUT");
+//        config.addAllowedMethod("DELETE");
+//        config.addAllowedMethod("PATCH");
+//        config.addAllowedOrigin("*");
+//        config.addAllowedHeader("*");
+//        source.registerCorsConfiguration("/**", config);
+//        registrationBean.setFilter(new CorsFilter(source));
+//        registrationBean.setOrder(0);
+//        return registrationBean;
+//    }
 }

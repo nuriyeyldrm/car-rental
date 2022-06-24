@@ -37,7 +37,7 @@ public class UserService {
 
     private final static String USER_NOT_FOUND_MSG = "user with id %d not found";
 
-    public List<ProjectUser> fetchAllUsers(){
+    public List<ProjectUser> fetchAllUsers() {
         return userRepository.findAllBy();
     }
 
